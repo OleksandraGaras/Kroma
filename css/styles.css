@@ -1,5 +1,4 @@
-
-    /* ==========================================
+/* ==========================================
    RESET & BASE
 ========================================== */
 * {
@@ -14,142 +13,68 @@ body {
   color: #d0c0e0;
   overflow: hidden;
 
-  /* GRADIENTE LIBRE ENTRE #6A0000 (más oscuro) y #0A0301 (más negro) */
+  /* Gradiente base oscuro + rojo sangre */
   background: 
-    /* Gradiente base más oscuro */
     linear-gradient(
       135deg,
-      #0A0301 0%,      /* Más negro */
+      #0A0301 0%,
       #0A0301 25%,
-      #2a0805 50%,     /* Más oscuro */
-      #4a0d09 75%,     /* Más oscuro */
-      #6A0000 100%     /* Rojo más oscuro */
+      #2a0805 50%,
+      #4a0d09 75%,
+      #6A0000 100%
     ),
     
-    /* Manchas difuminadas caóticas más oscuras */
-    radial-gradient(
-      circle at 20% 30%,
-      rgba(106, 0, 0, 0.4) 0%,     /* #6A0000 más oscuro */
-      rgba(106, 0, 0, 0.15) 30%,
-      transparent 60%
-    ),
+    /* Manchas difuminadas */
+    radial-gradient(circle at 20% 30%, rgba(106, 0, 0, 0.4) 0%, rgba(106, 0, 0, 0.15) 30%, transparent 60%),
+    radial-gradient(ellipse at 80% 70%, rgba(80, 5, 5, 0.35) 0%, rgba(80, 5, 5, 0.12) 25%, transparent 55%),
+    radial-gradient(circle at 40% 80%, rgba(60, 0, 0, 0.5) 0%, rgba(60, 0, 0, 0.2) 20%, transparent 50%),
+    radial-gradient(ellipse at 60% 20%, rgba(90, 0, 0, 0.35) 0%, rgba(90, 0, 0, 0.13) 22%, transparent 58%),
+    radial-gradient(circle at 90% 40%, rgba(70, 5, 5, 0.3) 0%, rgba(70, 5, 5, 0.1) 28%, transparent 65%),
     
-    radial-gradient(
-      ellipse at 80% 70%,
-      rgba(80, 5, 5, 0.35) 0%,     /* Más oscuro */
-      rgba(80, 5, 5, 0.12) 25%,
-      transparent 55%
-    ),
-    
-    radial-gradient(
-      circle at 40% 80%,
-      rgba(60, 0, 0, 0.5) 0%,      /* Más oscuro */
-      rgba(60, 0, 0, 0.2) 20%,
-      transparent 50%
-    ),
-    
-    radial-gradient(
-      ellipse at 60% 20%,
-      rgba(90, 0, 0, 0.35) 0%,     /* Más oscuro */
-      rgba(90, 0, 0, 0.13) 22%,
-      transparent 58%
-    ),
-    
-    radial-gradient(
-      circle at 90% 40%,
-      rgba(70, 5, 5, 0.3) 0%,      /* Más oscuro */
-      rgba(70, 5, 5, 0.1) 28%,
-      transparent 65%
-    ),
-    
-    /* Patrón de textura sutil más oscuro */
+    /* Textura sutil */
     repeating-linear-gradient(
       45deg,
       transparent,
       transparent 8px,
-      rgba(70, 0, 0, 0.03) 8px,    /* Más oscuro */
+      rgba(70, 0, 0, 0.03) 8px,
       rgba(70, 0, 0, 0.03) 16px
     );
   
-  /* Sombra interna más profunda */
-  box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 0 150px rgba(0,0,0,0.8);
   background-blend-mode: overlay, overlay, overlay, overlay, overlay, normal;
 }
 
-/* Efecto de textura adicional más oscuro */
+/* Capas de textura extra */
 body::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background: 
-    radial-gradient(
-      circle at 15% 25%,
-      transparent 0%,
-      rgba(10, 3, 1, 0.5) 100%     /* Más negro */
-    ),
-    radial-gradient(
-      circle at 85% 75%,
-      transparent 0%,
-      rgba(106, 0, 0, 0.25) 100%   /* Rojo más oscuro */
-    );
+    radial-gradient(circle at 15% 25%, transparent 0%, rgba(10,3,1,0.5) 100%),
+    radial-gradient(circle at 85% 75%, transparent 0%, rgba(106,0,0,0.25) 100%);
   pointer-events: none;
   z-index: -1;
   opacity: 0.5;
   mix-blend-mode: multiply;
 }
 
-/* Efecto de partículas oscuras */
 body::after {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background-image: 
-    radial-gradient(
-      circle at 25% 35%,
-      rgba(20, 0, 0, 0.3) 1px,     /* Más oscuro */
-      transparent 1px
-    ),
-    radial-gradient(
-      circle at 75% 65%,
-      rgba(30, 0, 0, 0.25) 1px,    /* Más oscuro */
-      transparent 1px
-    ),
-    radial-gradient(
-      circle at 45% 85%,
-      rgba(25, 0, 0, 0.2) 1px,     /* Más oscuro */
-      transparent 1px
-    );
+    radial-gradient(circle at 25% 35%, rgba(20,0,0,0.3) 1px, transparent 1px),
+    radial-gradient(circle at 75% 65%, rgba(30,0,0,0.25) 1px, transparent 1px),
+    radial-gradient(circle at 45% 85%, rgba(25,0,0,0.2) 1px, transparent 1px);
   background-size: 200px 200px;
   pointer-events: none;
   z-index: -1;
   opacity: 0.6;
 }
 
-/* Pulso muy sutil y oscuro */
-@keyframes subtle-glow {
-  0%, 100% {
-    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
-    filter: brightness(0.95) contrast(1.05);
-  }
-  50% {
-    background-position: 0% 0%, 0.8% 0.8%, -0.8% -0.8%, 0.4% 0.4%, -0.4% -0.4%, 0% 0%;
-    filter: brightness(1) contrast(1.02);
-  }
-}
-
-body {
-  animation: subtle-glow 45s infinite alternate ease-in-out;
-}
-
-/* ==========================================
-   HEADER (MANTENIDO IGUAL)
-========================================== */
+/* Header */
 header {
   height: 80px;
   background: transparent;
@@ -163,9 +88,6 @@ header {
   z-index: 90;
 }
 
-/* ==========================================
-   LOGO Y PERFIL (MANTENIDO IGUAL)
-========================================== */
 .logo img,
 .profile img {
   height: 54px;
@@ -174,9 +96,6 @@ header {
   object-fit: cover;
 }
 
-/* ==========================================
-   NAV DERECHA (ABOUTs) (MANTENIDO IGUAL)
-========================================== */
 .nav-right {
   display: flex;
   gap: 50px;
@@ -196,49 +115,7 @@ header {
   color: #ffcccc;
 }
 
-/* ==========================================
-   BARRA LATERAL IZQUIERDA (MANTENIDO IGUAL)
-========================================== */
-.main-nav-left {
-  position: fixed;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  z-index: 80;
-  width: 64px;
-  align-items: center;
-}
-
-.main-nav-left a {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: rgba(70, 15, 15, 0.45);
-  border: 1px solid rgba(140, 40, 40, 0.45);
-  color: #ffcccc;
-  font-size: 12px;
-  font-weight: 600;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: inset 0 1px 6px rgba(0,0,0,0.5);
-}
-
-.main-nav-left a:hover {
-  transform: scale(1.2);
-  background: rgba(100, 25, 25, 0.75);
-  border-color: #cc5555;
-}
-
-/* ==========================================
-   CONTENEDOR CENTRAL (MANTENIDO IGUAL)
-========================================== */
+/* Contenedor principal */
 .container {
   height: calc(100vh - 80px);
   position: relative;
@@ -247,66 +124,148 @@ header {
   align-items: center;
 }
 
-.skill-map {
-  position: relative;
-  width: 1000px;
-  height: 700px;
-  max-width: 90vw;
-  max-height: 80vh;
+.register-wrapper {
+  display: flex;
+  max-width: 1400px;
+  width: 100%;
+  gap: 100px;           /* separación entre izquierda y derecha */
+  align-items: center;
+  padding: 0 80px;
 }
 
-/* Nodos / niveles (MANTENIDO IGUAL) */
-.node {
+/* ==========================================
+   LADO IZQUIERDO - Texto motivacional (más ancho)
+========================================== */
+.form-section {
+  flex: 1.35;
+  max-width: 680px;
+  padding-right: 40px;   /* espacio extra hacia el logo */
+}
+
+.form-section h1 {
+  font-size: 54px;
+  color: #ffcccc;
+  margin-bottom: 12px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+}
+
+.subtitle {
+  font-size: 21px;
+  color: #d89999;
+  font-weight: 300;
+}
+
+.why-choose {
+  padding: 36px;
+  background: rgba(70, 15, 15, 0.42);
+  border: 1px solid rgba(140, 40, 40, 0.5);
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+}
+
+.why-choose h2 {
+  font-size: 30px;
+  color: #ffbbbb;
+  margin-bottom: 24px;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.9);
+}
+
+.why-choose ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.why-choose li {
+  color: #d0b0d0;
+  font-size: 17px;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 32px;
+}
+
+.why-choose li::before {
+  content: "⚡";
   position: absolute;
-  width: 70px;
-  height: 70px;
+  left: 6px;
+  color: #cc5555;
+  font-size: 20px;
+}
+
+.final-cta-text {
+  font-size: 19px;
+  color: #ffdddd;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 0 0 12px rgba(204, 85, 85, 0.4);
+}
+
+/* ==========================================
+   LADO DERECHO - Logo grande + CTA
+========================================== */
+.info-section {
+  flex: 0.9;
+  max-width: 420px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.logo-large {
+  width: 380px;
+  height: 380px;
   border-radius: 50%;
+  background: rgba(70, 15, 15, 0.45);
+  border: 2px solid rgba(140, 40, 40, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  font-weight: regular;
-  color: white;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.7);
+  box-shadow: 
+    inset 0 2px 10px rgba(0,0,0,0.7),
+    0 8px 32px rgba(0,0,0,0.5);
   transition: all 0.4s ease;
-  cursor: pointer;
-  user-select: none;
 }
 
-.node:hover {
-  transform: scale(1.75);
-  z-index: 10;
-  box-shadow: 0 0 26px 12px rgba(0,0,0,0.5);
+.logo-large:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    inset 0 2px 10px rgba(0,0,0,0.7),
+    0 12px 40px rgba(204, 85, 85, 0.3);
 }
 
-.node span {
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
+.logo-large img {
+  width: 88%;
+  height: 88%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-/* Colores por rama (MANTENIDO IGUAL) */
-.red    { background: #b71c1c; }
-.orange { background: #ef6c00; }
-.yellow { background: #f9a825; }
-.green  { background: #1b5e20; }
-.blue   { background: #0d47a1; }
-.purple { background: #4a148c; }
+.cta-button {
+  display: inline-block;
+  padding: 18px 48px;
+  background: linear-gradient(135deg, #cc5555, #a03030);
+  border: 2px solid #ff8888;
+  border-radius: 50px;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+  box-shadow: 0 8px 32px rgba(204, 85, 85, 0.35);
+  transition: all 0.35s ease;
+}
 
-/* Posiciones de los nodos (MANTENIDO IGUAL) */
-.r1 { top: 95%; left: 50%; }   .r2 { top: 87%; left: 25%; }
-.r3 { top: 75%; left: 0%; }   .r4 { top: 65%; left: -20%; }
-.o1 { top: 58%; left: -5%; }   .o2 { top: 45%; left: -25%; }
-.o3 { top: 23%; left: -5%; }
-.y1 { top: 65%; left: 23%; }   .y2 { top: 76%; left: 40%; }
-.y3 { top: 40%; left: 15%; }
-.g1 { top: 52%; left: 56%; }   .g2 { top: 60%; left: 62%; }
-.g3 { top: 46%; left: 58%; }
-.b1 { top: 28%; left: 62%; }   .b2 { top: 22%; left: 68%; }
-.b3 { top: 34%; left: 64%; }   .b4 { top: 18%; left: 60%; }
-.p1 { top: 24%; left: 40%; }   .p2 { top: 18%; left: 44%; }
-.p3 { top: 0%; left: 5%; }
+.cta-button:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 16px 48px rgba(204, 85, 85, 0.55);
+  background: linear-gradient(135deg, #e06666, #bb4040);
+}
 
 /* ==========================================
-   BOTÓN +INFO (MANTENIDO IGUAL)
+   BOTÓN +INFO inferior derecha
 ========================================== */
 .info {
   position: absolute;
@@ -320,4 +279,504 @@ header {
 
 .info:hover {
   color: #ffcccc;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+@media (max-width: 1100px) {
+  .register-wrapper {
+    gap: 70px;
+    padding: 0 50px;
+  }
+  
+  .form-section {
+    flex: 1.2;
+    max-width: 580px;
+    padding-right: 30px;
+  }
+}
+
+@media (max-width: 968px) {
+  .register-wrapper {
+    flex-direction: column;
+    gap: 60px;
+    padding: 0 40px;
+  }
+  
+  .form-section,
+  .info-section {
+    max-width: 100%;
+    padding-right: 0;
+  }
+  
+  .form-section {
+    flex: none;
+  }
+  
+  .logo-large {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 600px) {
+  .logo-large {
+    width: 240px;
+    height: 240px;
+  }
+  
+  .cta-button {
+    padding: 16px 36px;
+    font-size: 17px;
+  }
+  
+  .form-section h1 {
+    font-size: 42px;
+  }
+  
+  .subtitle {
+    font-size: 18px;
+  }
+  
+  .why-choose {
+    padding: 24px;
+  }
+  
+  .why-choose h2 {
+    font-size: 26px;
+  }
+}
+/* ==========================================
+   FORMULARIO DE REGISTRO (volver a añadir)
+========================================== */
+
+/* Ajuste general de la sección izquierda cuando tiene formulario */
+.form-section {
+  flex: 1.35;
+  max-width: 680px;
+  padding-right: 40px;
+}
+
+/* Títulos y subtítulos (ya los tienes, solo recordatorio) */
+.form-section h1 {
+  font-size: 54px;
+  color: #ffcccc;
+  margin-bottom: 12px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+}
+
+.subtitle {
+  font-size: 21px;
+  color: #d89999;
+  font-weight: 300;
+}
+
+/* Grupos de campos */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  color: #d0c0e0;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(70, 15, 15, 0.45);
+  border: 1px solid rgba(140, 40, 40, 0.45);
+  border-radius: 8px;
+  color: #ffcccc;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 6px rgba(0,0,0,0.5);
+}
+
+.form-group input:focus {
+  outline: none;
+  background: rgba(100, 25, 25, 0.55);
+  border-color: #cc5555;
+  box-shadow: 0 0 12px rgba(204, 85, 85, 0.3);
+}
+
+.form-group input::placeholder {
+  color: rgba(208, 192, 224, 0.4);
+}
+
+/* Checkbox */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #cc5555;
+}
+
+.checkbox-group label {
+  color: #c09090;
+  font-size: 14px;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Botón de enviar */
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: rgba(100, 25, 25, 0.75);
+  border: 1px solid #cc5555;
+  border-radius: 8px;
+  color: #ffcccc;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 6px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+  margin-top: 12px;
+}
+
+.submit-btn:hover {
+  background: rgba(120, 35, 35, 0.85);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(204, 85, 85, 0.4);
+}
+
+/* Enlace a login */
+.login-link {
+  text-align: center;
+  margin-top: 24px;
+  color: #c09090;
+  font-size: 14px;
+}
+
+.login-link a {
+  color: #ffcccc;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.login-link a:hover {
+  color: #ff9999;
+}
+
+
+/* Responsive - pequeño ajuste cuando hay formulario */
+@media (max-width: 968px) {
+  .form-section {
+    padding-right: 0;
+    max-width: 100%;
+  }
+}
+/* ==========================================
+   CAMBIOS / ADICIONES para la página de LOGIN
+========================================== */
+
+
+/* Ajustes sutiles para diferenciar un poco la página de login */
+.form-section h1 {
+  font-size: 50px;           /* un poco más pequeño que en registro */
+  margin-bottom: 16px;
+}
+
+/* Fila de "Recordarme" + "¿Olvidaste contraseña?" */
+.options-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0 28px 0;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.forgot-password {
+  color: #c09090;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.forgot-password:hover {
+  color: #ffcccc;
+  text-decoration: underline;
+}
+
+/* Texto inferior: enlace a registro */
+.register-link {
+  text-align: center;
+  margin-top: 28px;
+  color: #c09090;
+  font-size: 15px;
+}
+
+.register-link a {
+  color: #ffcccc;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.register-link a:hover {
+  color: #ff9999;
+  text-decoration: underline;
+}
+
+/* Responsive - misma lógica que en registro */
+@media (max-width: 1100px) {
+  .login-wrapper {
+    gap: 70px;
+    padding: 0 50px;
+  }
+}
+
+@media (max-width: 968px) {
+  .login-wrapper {
+    flex-direction: column;
+    gap: 60px;
+    padding: 0 40px;
+  }
+  
+  .form-section,
+  .info-section {
+    max-width: 100%;
+    padding-right: 0;
+  }
+}
+
+/* ==========================================
+   PÁGINA DE PERFIL
+========================================== */
+.profile-container {
+  padding: 40px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.profile-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+/* Header superior */
+.profile-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 35px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(140, 40, 40, 0.4);
+}
+
+.profile-avatar-wrapper {
+  position: relative;
+}
+
+.profile-avatar.large {
+  width: 180px;
+  height: 180px;
+  border: 4px solid #cc5555;
+  box-shadow: 0 0 30px rgba(204, 85, 85, 0.4);
+}
+
+.avatar-frame {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 3px solid rgba(204, 85, 85, 0.3);
+  pointer-events: none;
+}
+
+.profile-info h1.profile-name {
+  font-size: 42px;
+  color: #ffcccc;
+  margin-bottom: 12px;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 45px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-label {
+  color: #c09090;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffdddd;
+}
+
+.level-badge {
+  background: linear-gradient(135deg, #6a0000, #a03030);
+  padding: 4px 16px;
+  border-radius: 30px;
+  box-shadow: 0 0 15px rgba(106, 0, 0, 0.6);
+}
+
+/* Sección de skills / tecnologías */
+.skills-section {
+  grid-column: 1;
+}
+
+.skills-section h2 {
+  font-size: 28px;
+  color: #ffbbbb;
+  margin-bottom: 30px;
+}
+
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.skill-name {
+  width: 140px;
+  font-weight: 500;
+  color: #d0c0e0;
+}
+
+.skill-level-bar {
+  flex: 1;
+  height: 12px;
+  background: rgba(70, 15, 15, 0.6);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.skill-progress {
+  height: 100%;
+  transition: width 0.8s ease;
+  min-width: 8%;
+}
+
+.skill-level-text {
+  width: 160px;
+  text-align: right;
+  color: #c09090;
+  font-size: 14px;
+}
+
+/* Sección de logros (derecha) */
+.achievements-section {
+  grid-column: 2;
+}
+
+.level-colors h3,
+.badges-grid h3 {
+  font-size: 22px;
+  color: #ffcccc;
+  margin-bottom: 20px;
+}
+
+.color-circles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 50px;
+}
+
+.color-circle {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 3px solid rgba(0,0,0,0.5);
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.7);
+}
+
+.color-circle.red    { background: #b71c1c; }
+.color-circle.orange { background: #ef6c00; }
+.color-circle.yellow { background: #f9a825; }
+.color-circle.green  { background: #1b5e20; }
+.color-circle.blue   { background: #0d47a1; }
+.color-circle.purple { background: #4a148c; }
+.color-circle.cyan   { background: #00acc1; }
+
+.color-circle.active {
+  border-color: #ffcccc;
+  box-shadow: 0 0 20px 4px rgba(204, 85, 85, 0.6);
+}
+
+/* Insignias */
+.badges-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.badge-item {
+  aspect-ratio: 1;
+  background: rgba(70, 15, 15, 0.45);
+  border: 1px solid rgba(140, 40, 40, 0.5);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.badge {
+  width: 68%;
+  height: 68%;
+  background: #444;
+  border-radius: 50%;
+  opacity: 0.7;
+  /* Aquí irían imágenes o iconos reales de cada insignia */
+}
+
+.badge.first-project { background: linear-gradient(45deg, #ffd700, #ffaa00); opacity: 1; }
+.badge.streak-30     { background: linear-gradient(45deg, #ff6b6b, #ee5253); opacity: 1; }
+.badge.css-master    { background: linear-gradient(45deg, #00d4ff, #0095ff); opacity: 1; }
+.badge.js-ninja      { background: linear-gradient(45deg, #f7df1e, #e0c200); opacity: 1; }
+
+.locked .badge {
+  background: #222;
+  filter: grayscale(100%);
+  opacity: 0.4;
+}
+
+.locked::after {
+  content: "🔒";
+  position: absolute;
+  font-size: 28px;
+  color: #666;
+  opacity: 0.8;
+}
+
+/* Responsive básico */
+@media (max-width: 1100px) {
+  .profile-content {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
 }

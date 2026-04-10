@@ -1,0 +1,49 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title KROMA - Iniciar Sesi&oacute;n
+  link(rel='stylesheet' href='/css/styles.css')
+body 
+  header
+    .logo
+      img(src='https://via.placeholder.com/180x54/330000/ffffff?text=KROMA' alt='KROMA')
+    .nav-right
+      a(href='#') ABOUT
+      a(href='#') ABOUT
+      a(href='#') ABOUT
+      a(href='#') ABOUT
+      .profile
+        img(src='https://via.placeholder.com/54/330000/ffffff?text=Yo' alt='Perfil')
+  .container
+    .register-wrapper
+      // LADO IZQUIERDO - Texto + Formulario de login
+      .form-section
+        h1 Bienvenid@ de nuevo
+        p.subtitle Ingresa y sigue subiendo de nivel en tu camino
+        form(action='/mapa' method='POST')
+          .form-group
+            label(for='email') Correo electr&oacute;nico
+            input#email(type='email' name='email' placeholder='tu@email.com' required='')
+          .form-group
+            label(for='password') Contrase&ntilde;a
+            input#password(type='password' name='password' placeholder='••••••••' required='')
+          .options-row
+            .checkbox-group
+              input#remember(type='checkbox' name='remember')
+              label(for='remember') Recordarme
+            a.forgot-password(href='#') &iquest;Olvidaste tu contrase&ntilde;a?
+          button.submit-btn(type='submit') Iniciar sesi&oacute;n
+        .register-link
+          | &iquest;A&uacute;n no tienes cuenta? 
+          a(href='registro.html') Reg&iacute;strate aqu&iacute;
+      // LADO DERECHO - Logo grande + CTA hacia registro
+      .info-section
+        .logo-large
+          img(src='https://via.placeholder.com/420/330000/ffffff?text=KROMA' alt='KROMA Logo Grande')
+        .info-text
+          h2 Aprende a tu ritmo
+          p
+            | KROMA es tu plataforma de aprendizaje interactivo. Domina nuevas habilidades con nuestro sistema
+            | gamificado de niveles y desaf&iacute;os progresivos.
+  .info +info

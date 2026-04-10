@@ -1,0 +1,52 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title KROMA - Registro
+  link(rel='stylesheet' href='/css/styles.css')
+body 
+  header
+    .logo
+      img(src='https://via.placeholder.com/180x54/330000/ffffff?text=KROMA' alt='KROMA')
+    .nav-right
+      a(href='#') ABOUT
+      a(href='#') ABOUT
+      a(href='#') ABOUT
+      a(href='#') ABOUT
+      .profile
+        img(src='https://via.placeholder.com/54/330000/ffffff?text=Yo' alt='Perfil')
+  .container
+    .register-wrapper
+      // FORMULARIO IZQUIERDA
+      .form-section
+        h1 &Uacute;nete a KROMA
+        p Crea tu cuenta y comienza tu viaje de aprendizaje
+        form(action='#' method='POST')
+          .form-group
+            label(for='nombre') Nombre completo
+            input#nombre(type='text' name='nombre' placeholder='Tu nombre' required='')
+          .form-group
+            label(for='email') Correo electr&oacute;nico
+            input#email(type='email' name='email' placeholder='tu@email.com' required='')
+          .form-group
+            label(for='password') Contrase&ntilde;a
+            input#password(type='password' name='password' placeholder='Mínimo 8 caracteres' required='')
+          .form-group
+            label(for='password-confirm') Confirmar contrase&ntilde;a
+            input#password-confirm(type='password' name='password-confirm' placeholder='Repite tu contraseña' required='')
+          .checkbox-group
+            input#terms(type='checkbox' name='terms' required='')
+            label(for='terms') Acepto los t&eacute;rminos y condiciones
+          button.submit-btn(type='submit') Crear cuenta
+        .login-link
+          | &iquest;Ya tienes cuenta? 
+          a(href='#') Inicia sesi&oacute;n
+      // LOGO E INFO DERECHA
+      .info-section
+        .logo-large
+          img(src='https://via.placeholder.com/280/330000/ffffff?text=KROMA' alt='KROMA Logo')
+        .info-text
+          h2 Aprende a tu ritmo
+          p
+            | KROMA es tu plataforma de aprendizaje interactivo. Domina nuevas habilidades con nuestro sistema gamificado de niveles y desaf&iacute;os progresivos.
+  .info +info

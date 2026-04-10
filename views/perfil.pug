@@ -1,0 +1,90 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title KROMA - Mi Perfil
+  link(rel='stylesheet' href='/css/styles.css')
+body 
+  header
+    .logo
+      img(src='https://via.placeholder.com/180x54/330000/ffffff?text=KROMA' alt='KROMA')
+    .nav-right
+      a(href='#') Explorar
+      a(href='#') Ruta
+      a(href='#') Comunidad
+      a(href='#') Tienda
+      .profile.active
+        img(src='https://via.placeholder.com/54/330000/ffffff?text=Yo' alt='Tu foto')
+  .container.profile-container
+    .profile-content
+      // Parte superior: Avatar + Nombre + Nivel + Puntos
+      .profile-header
+        .profile-avatar-wrapper
+          .profile-avatar.large
+            img(src='https://via.placeholder.com/180/330000/ffffff?text=OL' alt='Tu avatar')
+          .avatar-frame
+        .profile-info
+          h1.profile-name Oleksa
+          .profile-stats
+            .stat-item
+              span.stat-label Nivel
+              span.stat-value.level-badge 27
+            .stat-item
+              span.stat-label Puntos
+              span.stat-value 84,920
+      // Lenguajes / Tecnologías (estilo barra de idiomas)
+      .skills-section
+        h2 Tecnolog&iacute;as dominadas
+        .skills-list
+          .skill-item
+            span.skill-name HTML
+            .skill-level-bar
+              .skill-progress(style='width: 95%; background: #e34c26;')
+            span.skill-level-text Avanzado
+          .skill-item
+            span.skill-name CSS
+            .skill-level-bar
+              .skill-progress(style='width: 88%; background: #1572b6;')
+            span.skill-level-text Avanzado
+          .skill-item
+            span.skill-name JavaScript
+            .skill-level-bar
+              .skill-progress(style='width: 72%; background: #f0db4f;')
+            span.skill-level-text Intermedio-Avanzado
+          .skill-item
+            span.skill-name PHP
+            .skill-level-bar
+              .skill-progress(style='width: 65%; background: #777bb4;')
+            span.skill-level-text Intermedio
+          .skill-item
+            span.skill-name React
+            .skill-level-bar
+              .skill-progress(style='width: 45%; background: #61dafb;')
+            span.skill-level-text Intermedio
+      // Derecha: Colores de niveles + Insignias
+      .achievements-section
+        .level-colors
+          h3 Paleta de niveles alcanzados
+          .color-circles
+            .color-circle.red
+            .color-circle.orange
+            .color-circle.yellow
+            .color-circle.green
+            .color-circle.blue
+            .color-circle.purple
+            .color-circle.cyan.active
+        .badges-grid
+          h3 Insignias obtenidas
+          .badges-container
+            .badge-item
+              .badge.first-project
+            .badge-item
+              .badge.streak-30
+            .badge-item
+              .badge.css-master
+            .badge-item
+              .badge.js-ninja
+            .badge-item.locked
+              .badge
+            .badge-item.locked
+              .badge

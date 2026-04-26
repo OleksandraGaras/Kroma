@@ -7,7 +7,7 @@ block content
       .form-section
         h1 &Uacute;nete a KROMA
         p Crea tu cuenta y comienza tu viaje de aprendizaje
-        form(action='#' method='POST')
+        form(action='/register' method='POST')
           .form-group
             label(for='nombre') Nombre completo
             input#nombre(type='text' name='nombre' placeholder='Tu nombre' required='')
@@ -18,7 +18,7 @@ block content
             label(for='password') Contrase&ntilde;a
             input#password(type='password' name='password' placeholder='Mínimo 8 caracteres' required='')
           .form-group
-            label(for='password-confirm') Confirmar contrase&ntilde;a
+            label(for='password_confirm') Confirmar contrase&ntilde;a
             input#password-confirm(type='password' name='password-confirm' placeholder='Repite tu contraseña' required='')
           .checkbox-group
             input#terms(type='checkbox' name='terms' required='')

@@ -6,6 +6,9 @@ const app = express();
 
 mongoose.connect('mongodb://127.0.0.1:27017/kroma'); 
 
+const mapa = require('./routes/mapa');
+const sesion = require('./routes/sesion');
+
 app.set('view engine', 'pug');
 app.set('views', './views');
 app.use(express.static('public'));
@@ -13,21 +16,9 @@ app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
-app.get('/singup', (req,res) => {
-	res.render('sing_in');
-})
+app.use('/', sesion);
 
-app.get('/register', (req,res) => {
-	res.render('register')
-})
-
-app.get('/', (req,res) => {
-	res.redirect('/singup');
-});
-
-app.post('/mapa', (req,res) => {
-	res.render('mapa');
-});
+app.use('/mapa', mapa);
 
 app.get('/perfil', (req,res) => {
 	res.render('perfil');

@@ -1,0 +1,25 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title KROMA - Iniciar Sesión
+    link(rel='stylesheet', href='/css/styles.css')
+
+  body
+    header
+      .logo
+        img(src='/imgs/logo_header.png', alt='KROMA')
+
+      .nav-right
+        a(href='#') ABOUT
+        a(href='#') ABOUT
+        a(href='#') ABOUT
+        a(href='#') ABOUT
+
+        .profile
+          a(href="/perfil") 
+            img(src='/imgs/usuario.png', alt='Perfil')
+
+    // Contenido que cambiará en cada página
+    block content

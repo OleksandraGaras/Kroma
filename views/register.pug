@@ -1,20 +1,6 @@
-doctype html
-head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  title KROMA - Registro
-  link(rel='stylesheet' href='/css/styles.css')
-body 
-  header
-    .logo
-      img(src='/imgs/logo_header.png' alt='KROMA')
-    .nav-right
-      a(href='#') ABOUT
-      a(href='#') ABOUT
-      a(href='#') ABOUT
-      a(href='#') ABOUT
-      .profile
-        img(src='/imgs/usuario.png' alt='Perfil')
+extends layout 
+
+block content
   .container
     .register-wrapper
       // FORMULARIO IZQUIERDA
@@ -40,7 +26,7 @@ body
           button.submit-btn(type='submit') Crear cuenta
         .login-link
           | &iquest;Ya tienes cuenta? 
-          a(href='#') Inicia sesi&oacute;n
+          a(href='/singin') Inicia sesi&oacute;n
       // LOGO E INFO DERECHA
       .info-section
         .logo-large

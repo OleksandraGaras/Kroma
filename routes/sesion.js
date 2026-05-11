@@ -9,8 +9,7 @@ router.get('/', (req,res) => {
 	res.redirect('/register');
 });
 
-router.get('/sing_in', (req,res) => {
-	res.render('sing_in')
-})
+router.get('/singin', registerController.singinView);
+router.post('/singin', registerController.login);
 
 module.exports = router;

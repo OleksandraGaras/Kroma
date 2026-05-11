@@ -40,6 +40,8 @@ exports.registro = async (req, res) => {
     let user = new User(saveData);
     await user.save();
     
+    req.session.userId = user._id
+
     res.redirect('/mapa');
 
   } catch (err) {
@@ -65,6 +67,7 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(cleanPassword, user.password);
 
     if (isMatch){
+      req.session.userId = user._id
       res.redirect('/mapa');
       res.status(200).json({
           message: 'Login exitoso',

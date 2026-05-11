@@ -18,6 +18,18 @@ const userSchema = mongoose.Schema({
       required: [true, 'La contraseña es obligatoria'],
       select: false
     },
+    nivel: {
+      type: Number,
+      default: 0,
+    },
+    points: {
+      type: Number,
+      default: 0,
+    },
+    profilepic: {
+      type: String,
+      default: 'usuario.png',
+    },
     terms: {
       type: Boolean,
       required: [true, 'Los terminos son obligatorios'],

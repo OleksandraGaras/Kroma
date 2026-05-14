@@ -6,7 +6,11 @@ block content
     section.editor-side
       // PESTAÑAS
       .editor-tabs
-        button#tab-editor.tab.active Codi
+        if level.language === 'css'
+          button#tab-html.tab HTML
+          button#tab-css.tab.active CSS
+        else 
+          button#tab-editor.tab.active Codi
         button#tab-instructions.tab Instruccions
       
       // EDITOR
@@ -23,7 +27,7 @@ block content
         iframe#preview-iframe(style="width: 100%; height: 100%; border: none; background: white;")
       
       // BOTÓN
-      form#level-form(action=`/mapa/nivel/${level.order}/complete` method="POST")
+      form#level-form(action=`/mapa/${level.language}/nivel/${level.order}/complete` method="POST")
         if error
           p.error-message(style="color: #ff6b6b; margin-bottom: 15px; font-weight: 600;")= error
 

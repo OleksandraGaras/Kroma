@@ -15,12 +15,31 @@ const levelSchema = new mongoose.Schema({
     },
     solutionCode: {
         type: String,
-        required: true
+        required: false
     },
     language: {
         type: String,
         default: 'html'
     },
+    htmlContext: {
+        type: String,
+        default: ''
+    },
+    validationType: {
+        type: String,
+        enum: ['literal', 'regex', 'dom'],
+        default: 'literal'
+    },
+    validationTests: [
+        {
+            type: { type: String }, // e.g., 'selectorExists', 'textContentMatch'
+            selector: String,
+            expected: String,
+            attributeName: String,
+            propertyName: String,
+            message: String
+        }
+    ],
     order: {
         type: Number,
         required: true,

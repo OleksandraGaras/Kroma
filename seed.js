@@ -4,21 +4,559 @@ const Level = require('./models/level.js');
 mongoose.connect('mongodb://127.0.0.1:27017/kroma')
     .then(async () => {
         console.log("Connected to MongoDB");
-        
+
         await Level.deleteMany({}); // Clear existing levels
 
-        const levels = [
+        const exercises = [
+            // ─────────────────────────────────────────────
+            // LEVEL 1 – Your First Heading
+            // ─────────────────────────────────────────────
             {
-                title: "Hola HTML",
-                description: "Benvingut al primer nivell! En aquest exercici has de crear un encapçalament <h1> que digui 'Hola Món!'.",
-                initialCode: "<!-- Escriu el teu codi aquí -->\n",
-                solutionCode: "<h1>Hola Món!</h1>",
+                title: "Your First Heading",
+                description:
+                    "Every webpage starts somewhere. Your job is to create the most important heading on a page. " +
+                    "Inside the <body>, add an <h1> element that says exactly: Hello, World!",
+                initialCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>My First Page</title>
+            </head>
+            <body>
+                <!-- Write your heading here -->
+            </body>
+            </html>`,
+                solutionCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>My First Page</title>
+            </head>
+            <body>
+                <h1>Hello, World!</h1>
+            </body>
+            </html>`,
                 language: "html",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "selectorExists",
+                        selector: "h1",
+                        expected: "",
+                        attributeName: "",
+                        message: "You need an <h1> element inside the <body>."
+                    },
+                    {
+                        type: "textContentMatch",
+                        selector: "h1",
+                        expected: "Hello, World!",
+                        attributeName: "",
+                        message: "The <h1> text must be exactly: Hello, World!"
+                    }
+                ],
                 order: 1
+            },
+
+            // ─────────────────────────────────────────────
+            // LEVEL 2 – Headings & Paragraphs
+            // ─────────────────────────────────────────────
+            {
+                title: "Headings & Paragraphs",
+                description:
+                    "Headings organise content, paragraphs carry it. " +
+                    "Add an <h1> that says 'About Me', followed by a <p> that says 'I am learning HTML.'",
+                initialCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>About Me</title>
+            </head>
+            <body>
+                <!-- Add your heading and paragraph here -->
+            </body>
+            </html>`,
+                solutionCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>About Me</title>
+            </head>
+            <body>
+                <h1>About Me</h1>
+                <p>I am learning HTML.</p>
+            </body>
+            </html>`,
+                language: "html",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "selectorExists",
+                        selector: "h1",
+                        expected: "",
+                        attributeName: "",
+                        message: "Add an <h1> element to the page."
+                    },
+                    {
+                        type: "textContentMatch",
+                        selector: "h1",
+                        expected: "About Me",
+                        attributeName: "",
+                        message: "The <h1> must say: About Me"
+                    },
+                    {
+                        type: "selectorExists",
+                        selector: "p",
+                        expected: "",
+                        attributeName: "",
+                        message: "Add a <p> element after the heading."
+                    },
+                    {
+                        type: "textContentMatch",
+                        selector: "p",
+                        expected: "I am learning HTML.",
+                        attributeName: "",
+                        message: "The <p> must say: I am learning HTML."
+                    }
+                ],
+                order: 2
+            },
+
+            // ─────────────────────────────────────────────
+            // LEVEL 3 – Links
+            // ─────────────────────────────────────────────
+            {
+                title: "Your First Link",
+                description:
+                    "Links are what make the web a web! " +
+                    "Create an <a> element that shows the text 'Visit Google' and points to https://www.google.com. " +
+                    "Make sure it opens in a new tab using the correct attribute.",
+                initialCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>Links</title>
+            </head>
+            <body>
+                <!-- Add your link here -->
+            </body>
+            </html>`,
+                solutionCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>Links</title>
+            </head>
+            <body>
+                <a href="https://www.google.com" target="_blank">Visit Google</a>
+            </body>
+            </html>`,
+                language: "html",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "selectorExists",
+                        selector: "a",
+                        expected: "",
+                        attributeName: "",
+                        message: "Add an <a> element to the page."
+                    },
+                    {
+                        type: "textContentMatch",
+                        selector: "a",
+                        expected: "Visit Google",
+                        attributeName: "",
+                        message: "The link text must be: Visit Google"
+                    },
+                    {
+                        type: "attributeMatch",
+                        selector: "a",
+                        expected: "https://www.google.com",
+                        attributeName: "href",
+                        message: "The href attribute must be: https://www.google.com"
+                    },
+                    {
+                        type: "attributeMatch",
+                        selector: "a",
+                        expected: "_blank",
+                        attributeName: "target",
+                        message: "Add target=\"_blank\" so the link opens in a new tab."
+                    }
+                ],
+                order: 3
+            },
+
+            // ─────────────────────────────────────────────
+            // LEVEL 4 – Lists
+            // ─────────────────────────────────────────────
+            {
+                title: "Shopping List",
+                description:
+                    "Lists are perfect for grouping related items. " +
+                    "Create an unordered list (<ul>) with exactly three <li> items: 'Apples', 'Bananas', and 'Cherries'. " +
+                    "Put a heading <h2> above the list that reads 'My Shopping List'.",
+                initialCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>Shopping List</title>
+            </head>
+            <body>
+                <!-- Add your heading and list here -->
+            </body>
+            </html>`,
+                solutionCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>Shopping List</title>
+            </head>
+            <body>
+                <h2>My Shopping List</h2>
+                <ul>
+                <li>Apples</li>
+                <li>Bananas</li>
+                <li>Cherries</li>
+                </ul>
+            </body>
+            </html>`,
+                language: "html",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "selectorExists",
+                        selector: "h2",
+                        expected: "",
+                        attributeName: "",
+                        message: "Add an <h2> heading above the list."
+                    },
+                    {
+                        type: "textContentMatch",
+                        selector: "h2",
+                        expected: "My Shopping List",
+                        attributeName: "",
+                        message: "The <h2> must say: My Shopping List"
+                    },
+                    {
+                        type: "selectorExists",
+                        selector: "ul",
+                        expected: "",
+                        attributeName: "",
+                        message: "Add an unordered list <ul> element."
+                    },
+                    {
+                        type: "childCount",
+                        selector: "ul",
+                        expected: "3",
+                        attributeName: "",
+                        message: "The list must have exactly 3 <li> items."
+                    },
+                    {
+                        type: "textContentMatch",
+                        selector: "ul li:nth-child(1)",
+                        expected: "Apples",
+                        attributeName: "",
+                        message: "The first item must be: Apples"
+                    },
+                    {
+                        type: "textContentMatch",
+                        selector: "ul li:nth-child(2)",
+                        expected: "Bananas",
+                        attributeName: "",
+                        message: "The second item must be: Bananas"
+                    },
+                    {
+                        type: "textContentMatch",
+                        selector: "ul li:nth-child(3)",
+                        expected: "Cherries",
+                        attributeName: "",
+                        message: "The third item must be: Cherries"
+                    }
+                ],
+                order: 4
+            },
+
+            // ─────────────────────────────────────────────
+            // LEVEL 5 – Images
+            // ─────────────────────────────────────────────
+            {
+                title: "Adding an Image",
+                description:
+                    "Images make pages come alive. " +
+                    "Add an <img> element with the src set to 'https://picsum.photos/200' " +
+                    "and an alt attribute that says 'A random photo'. " +
+                    "Above the image, add an <h2> that reads 'My Favourite Photo'.",
+                initialCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>Images</title>
+            </head>
+            <body>
+                <!-- Add your heading and image here -->
+            </body>
+            </html>`,
+                solutionCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>Images</title>
+            </head>
+            <body>
+                <h2>My Favourite Photo</h2>
+                <img src="https://picsum.photos/200" alt="A random photo">
+            </body>
+            </html>`,
+                language: "html",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "selectorExists",
+                        selector: "h2",
+                        expected: "",
+                        attributeName: "",
+                        message: "Add an <h2> heading above the image."
+                    },
+                    {
+                        type: "textContentMatch",
+                        selector: "h2",
+                        expected: "My Favourite Photo",
+                        attributeName: "",
+                        message: "The <h2> must say: My Favourite Photo"
+                    },
+                    {
+                        type: "selectorExists",
+                        selector: "img",
+                        expected: "",
+                        attributeName: "",
+                        message: "Add an <img> element to the page."
+                    },
+                    {
+                        type: "attributeMatch",
+                        selector: "img",
+                        expected: "https://picsum.photos/200",
+                        attributeName: "src",
+                        message: "Set src to: https://picsum.photos/200"
+                    },
+                    {
+                        type: "attributeMatch",
+                        selector: "img",
+                        expected: "A random photo",
+                        attributeName: "alt",
+                        message: "Set alt to: A random photo"
+                    }
+                ],
+                order: 5
+            },
+
+            // ─────────────────────────────────────────────
+            // LEVEL 6 – Simple Form
+            // ─────────────────────────────────────────────
+            {
+                title: "Build a Contact Form",
+                description:
+                    "Forms let users send data. Build a contact form with: " +
+                    "an <h1> that reads 'Contact Us', a <form> element containing " +
+                    "a text <input> with name='name' and placeholder='Your name', " +
+                    "an <input> with type='email', name='email' and placeholder='Your email', " +
+                    "and a <button> of type='submit' with the text 'Send'.",
+                initialCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>Contact</title>
+            </head>
+            <body>
+                <!-- Build your form here -->
+            </body>
+            </html>`,
+                solutionCode: `<!DOCTYPE html>
+            <html>
+            <head>
+                <title>Contact</title>
+            </head>
+            <body>
+                <h1>Contact Us</h1>
+                <form>
+                <input type="text" name="name" placeholder="Your name">
+                <input type="email" name="email" placeholder="Your email">
+                <button type="submit">Send</button>
+                </form>
+            </body>
+            </html>`,
+                language: "html",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "selectorExists",
+                        selector: "h1",
+                        expected: "",
+                        attributeName: "",
+                        message: "Add an <h1> heading."
+                    },
+                    {
+                        type: "textContentMatch",
+                        selector: "h1",
+                        expected: "Contact Us",
+                        attributeName: "",
+                        message: "The <h1> must say: Contact Us"
+                    },
+                    {
+                        type: "selectorExists",
+                        selector: "form",
+                        expected: "",
+                        attributeName: "",
+                        message: "Wrap your inputs inside a <form> element."
+                    },
+                    {
+                        type: "selectorExists",
+                        selector: "form input[name='name']",
+                        expected: "",
+                        attributeName: "",
+                        message: "Add a text input with name='name' inside the form."
+                    },
+                    {
+                        type: "attributeMatch",
+                        selector: "form input[name='name']",
+                        expected: "Your name",
+                        attributeName: "placeholder",
+                        message: "The name input placeholder must be: Your name"
+                    },
+                    {
+                        type: "selectorExists",
+                        selector: "form input[type='email']",
+                        expected: "",
+                        attributeName: "",
+                        message: "Add an email input (type='email') inside the form."
+                    },
+                    {
+                        type: "attributeMatch",
+                        selector: "form input[type='email']",
+                        expected: "Your email",
+                        attributeName: "placeholder",
+                        message: "The email input placeholder must be: Your email"
+                    },
+                    {
+                        type: "selectorExists",
+                        selector: "form button[type='submit']",
+                        expected: "",
+                        attributeName: "",
+                        message: "Add a submit button inside the form."
+                    },
+                    {
+                        type: "textContentMatch",
+                        selector: "form button[type='submit']",
+                        expected: "Send",
+                        attributeName: "",
+                        message: "The button text must be: Send"
+                    }
+                ],
+                order: 6
+            },
+            
+            // ─────────────────────────────────────────────
+            // LEVEL 7 – Background Color (CSS)
+            // ─────────────────────────────────────────────
+            {
+                title: "Painting the Canvas",
+                description: "CSS stands for Cascading Style Sheets. It's how we make HTML look good! " +
+                             "In this level, use CSS to change the background color of the <body> to 'lightblue'.",
+                initialCode: "body {\n  /* Add your style here */\n}",
+                htmlContext: "<h1>I love colors!</h1>",
+                language: "css",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "styleMatch",
+                        selector: "body",
+                        propertyName: "backgroundColor",
+                        expected: "rgb(173, 216, 230)",
+                        message: "The background color of the body must be lightblue."
+                    }
+                ],
+                order: 7
+            },
+
+            // ─────────────────────────────────────────────
+            // LEVEL 8 – Text Styling (CSS)
+            // ─────────────────────────────────────────────
+            {
+                title: "Text Styling",
+                description: "Let's style the text. Target the <h1> element and change its color to 'red' " +
+                             "and set its font-size to '40px'.",
+                initialCode: "h1 {\n  /* Add your style here */\n}",
+                htmlContext: "<h1>This is a big red title</h1>",
+                language: "css",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "styleMatch",
+                        selector: "h1",
+                        propertyName: "color",
+                        expected: "rgb(255, 0, 0)",
+                        message: "The text color must be red."
+                    },
+                    {
+                        type: "styleMatch",
+                        selector: "h1",
+                        propertyName: "fontSize",
+                        expected: "40px",
+                        message: "The font size must be 40px."
+                    }
+                ],
+                order: 8
+            },
+
+            // ─────────────────────────────────────────────
+            // LEVEL 9 – Borders (CSS)
+            // ─────────────────────────────────────────────
+            {
+                title: "Frames & Borders",
+                description: "Every element is a box. Let's add a border to the <div>. " +
+                             "Set the border to '5px solid black'.",
+                initialCode: "div {\n  /* Add your style here */\n}",
+                htmlContext: "<div class='box'>I'm inside a box!</div>",
+                language: "css",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "styleMatch",
+                        selector: "div",
+                        propertyName: "border",
+                        expected: "5px solid rgb(0, 0, 0)",
+                        message: "The border must be 5px solid black."
+                    }
+                ],
+                order: 9
+            },
+
+            // ─────────────────────────────────────────────
+            // LEVEL 10 – Centering with Margins (CSS)
+            // ─────────────────────────────────────────────
+            {
+                title: "Space & Alignment",
+                description: "Margins create space outside elements. Use 'margin: auto' on the <div> " +
+                             "to center it horizontally. Also, give it a width of '200px'.",
+                initialCode: "div {\n  /* Add your style here */\n}",
+                htmlContext: "<div style='background: gold; height: 100px;'>Center me!</div>",
+                language: "css",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "styleMatch",
+                        selector: "div",
+                        propertyName: "width",
+                        expected: "200px",
+                        message: "The width must be 200px."
+                    },
+                    {
+                        type: "styleMatch",
+                        selector: "div",
+                        propertyName: "marginLeft",
+                        expected: "auto",
+                        message: "The left margin must be auto."
+                    },
+                    {
+                        type: "styleMatch",
+                        selector: "div",
+                        propertyName: "marginRight",
+                        expected: "auto",
+                        message: "The right margin must be auto."
+                    }
+                ],
+                order: 10
             }
         ];
 
-        await Level.insertMany(levels);
+        await Level.insertMany(exercises);
         console.log("Levels seeded successfully");
         process.exit();
     })

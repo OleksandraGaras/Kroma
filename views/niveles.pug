@@ -1,0 +1,61 @@
+extends layout 
+
+block content
+  .learn-page
+    // IZQUIERDA
+    section.editor-side
+      // PESTAÑAS
+      .editor-tabs
+        button.tab.active
+          | HTML b&agrave;sic
+        button.tab
+          | Codi desde 0
+      // EDITOR
+      .code-editor
+        pre.
+          \n<!DOCTYPE html>
+          <HTML>
+          
+          <head>
+          
+              <title>
+                  Mi primer WEB
+              </title>
+          
+          </head>
+          
+          <body>
+          
+              <div id="una capa">
+          
+                  <h1>
+                      Hola mundo!
+                  </h1>
+          
+                  <p>
+                      Este es un ejemplo del uso de HTML
+                      para crear un documento web que
+                      nuestro navegador es capaz de
+                      interpretar.
+                  </p>
+          
+              </div>
+          
+          </body>
+          
+          </HTML>
+                  
+    // DERECHA
+    section.preview-side
+      // PREVIEW
+      .preview-window
+        .preview-content
+          h1 Hola mundo!
+          p
+            | Este es un ejemplo del uso de HTML
+            | para crear un documento web que
+            | nuestro navegador es capaz de
+            | interpretar.
+      // BOTÓN
+      button.finish-btn
+        | FINALITZAR NIVEL &rarr;

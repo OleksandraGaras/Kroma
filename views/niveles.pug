@@ -6,56 +6,39 @@ block content
     section.editor-side
       // PESTAÑAS
       .editor-tabs
-        button.tab.active
-          | HTML b&agrave;sic
-        button.tab
-          | Codi desde 0
+        button#tab-editor.tab.active Codi
+        button#tab-instructions.tab Instruccions
+      
       // EDITOR
       .code-editor
-        pre.
-          \n<!DOCTYPE html>
-          <HTML>
-          
-          <head>
-          
-              <title>
-                  Mi primer WEB
-              </title>
-          
-          </head>
-          
-          <body>
-          
-              <div id="una capa">
-          
-                  <h1>
-                      Hola mundo!
-                  </h1>
-          
-                  <p>
-                      Este es un ejemplo del uso de HTML
-                      para crear un documento web que
-                      nuestro navegador es capaz de
-                      interpretar.
-                  </p>
-          
-              </div>
-          
-          </body>
-          
-          </HTML>
-                  
+        #editor-container(style="width: 100%; height: 100%; border-radius: 12px; overflow: hidden;")
+        #instructions-container.hidden(style="padding: 20px; color: #eee; font-size: 1.1rem; line-height: 1.6;")
+          h2= level.title
+          div(style="margin-top: 15px;") !{level.description}
+                   
     // DERECHA
     section.preview-side
       // PREVIEW
       .preview-window
-        .preview-content
-          h1 Hola mundo!
-          p
-            | Este es un ejemplo del uso de HTML
-            | para crear un documento web que
-            | nuestro navegador es capaz de
-            | interpretar.
+        iframe#preview-iframe(style="width: 100%; height: 100%; border: none; background: white;")
+      
       // BOTÓN
-      button.finish-btn
-        | FINALITZAR NIVEL &rarr;
+      form#level-form(action=`/mapa/nivel/${level.order}/complete` method="POST")
+        if error
+          p.error-message(style="color: #ff6b6b; margin-bottom: 15px; font-weight: 600;")= error
+
+
+        input(type="hidden" name="code" id="code-input")
+        button.finish-btn(type="submit")
+          | FINALITZAR NIVEL &rarr;
+
+  // Monaco Editor Loader
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js")
+  script.
+    const levelData = !{JSON.stringify(level)};
+  script(src="/js/editor.js")
+
+  style.
+    .hidden { display: none !important; }
+    #instructions-container h2 { color: #ffcccc; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+

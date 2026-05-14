@@ -30,7 +30,8 @@ app.use(async (req, res, next) => {
   if (req.session.userId) {
     try {
       const user = await User.findById(req.session.userId);
-      res.locals.user = user; // Esto hace que 'user' esté disponible en todos los .pug
+      req.user = user; // Set req.user for use in routes and controllers
+      res.locals.user = user; // This makes 'user' available in all .pug views
     } catch (err) {
       console.error(err);
     }

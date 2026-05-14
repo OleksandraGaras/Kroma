@@ -9,17 +9,21 @@ html(lang="es")
   body
     header
       .logo
-        img(src='/imgs/logo_header.png', alt='KROMA')
+        a(href='/mapa')
+          img(src='/imgs/logo_header.png', alt='KROMA')
 
       .nav-right
         a(href='#') EDITOR
         a(href='#') DESAFIOS
         a(href='#') PALETA
-        a(href='#') PUNTOS
+        a(href='#' style="cursor: default;") #{user.points} pts.
 
         .profile
           a(href="/perfil") 
-            img(src='/imgs/usuario.png', alt='Perfil')
+            if user.profilepic === "usuario.png"
+              img(src='/usuario.png' alt='Tu avatar')
+            else 
+              img(src=user.profilepic alt='Tu avatar')
 
     // Contenido que cambiará en cada página
     block content

@@ -69,14 +69,6 @@ exports.login = async (req, res) => {
     if (isMatch){
       req.session.userId = user._id
       res.redirect('/mapa');
-      res.status(200).json({
-          message: 'Login exitoso',
-          user: {
-            id: user._id,
-            name: user.name,
-            email: user.email
-          }
-      });
     } else {
       res.status(401).json({ message: 'Credenciales incorrectas' });
     }

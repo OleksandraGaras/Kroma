@@ -5,19 +5,31 @@ block content
     .profile-content
       // Parte superior: Avatar + Nombre + Nivel + Puntos
       .profile-header
-        .profile-avatar-wrapper
-          .profile-avatar.large
-            img(src='https://via.placeholder.com/180/330000/ffffff?text=OL' alt='Tu avatar')
-          .avatar-frame
+        .profile-left-column
+          .profile-avatar-wrapper
+            .profile-avatar.large
+              if user.profilepic === "usuario.png"
+                img(src='/usuario.png' alt='Tu avatar')
+              else 
+                img(src=user.profilepic alt='Tu avatar')
+            .avatar-frame
+
+          .upload-form-container
+            form(action="/perfil/upload-avatar" method="POST" enctype="multipart/form-data" class="upload-form")
+              label.file-input-label
+                span.icon 📁
+                span.text Seleccionar imagen...
+                input(type="file" name="avatar" accept="image/*" required)
+              button(type="submit" class="btn-upload") Actualizar Foto
         .profile-info
           h1.profile-name #{user.name}
           .profile-stats
             .stat-item
               span.stat-label Nivel
-              span.stat-value.level-badge 27
+              span.stat-value.level-badge #{user.nivel}
             .stat-item
               span.stat-label Puntos
-              span.stat-value 84,920
+              span.stat-value #{user.points}
       // Lenguajes / Tecnologías (estilo barra de idiomas)
       .skills-section
         h2 Tecnolog&iacute;as dominadas

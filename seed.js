@@ -553,6 +553,82 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                     }
                 ],
                 order: 10
+            },
+
+            // ─────────────────────────────────────────────
+            // LEVEL 11 – Hello JS (JavaScript)
+            // ─────────────────────────────────────────────
+            {
+                title: "Hello JavaScript",
+                description: "Welcome to JavaScript! JS makes websites interactive. " +
+                             "In this level, use the `alert()` function to display the message: 'Hello from Kroma!'",
+                initialCode: "// Write your JavaScript here\n",
+                htmlContext: "<h1>JavaScript is fun!</h1>",
+                cssContext: "h1 { color: #3498db; text-align: center; margin-top: 50px; }",
+                language: "javascript",
+                validationType: "literal",
+                validationTests: [
+                    {
+                        type: "regex",
+                        expected: "alert\\s*\\(\\s*['\"]Hello from Kroma!['\"]\\s*\\)",
+                        message: "You must use alert('Hello from Kroma!');"
+                    }
+                ],
+                order: 11
+            },
+
+            // ─────────────────────────────────────────────
+            // LEVEL 12 – Changing Text (JavaScript)
+            // ─────────────────────────────────────────────
+            {
+                title: "Changing Content",
+                description: "JavaScript can change what's on the page. " +
+                             "Use `document.getElementById('message').textContent = 'Kroma is awesome!';` " +
+                             "to change the text of the heading.",
+                initialCode: "// Select the element and change its content\n",
+                htmlContext: "<h1 id='message'>Old Message</h1>",
+                cssContext: "#message { font-family: sans-serif; color: #2ecc71; }",
+                language: "javascript",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "textContentMatch",
+                        selector: "#message",
+                        expected: "Kroma is awesome!",
+                        message: "The text of the heading must be: Kroma is awesome!"
+                    }
+                ],
+                order: 12
+            },
+
+            // ─────────────────────────────────────────────
+            // LEVEL 13 – Logging to Console (JavaScript)
+            // ─────────────────────────────────────────────
+            {
+                title: "The Console",
+                description: "The console is a developer's best friend. " +
+                             "Use `console.log('Level 13 Complete');` to log a message. " +
+                             "Also, change the background color of the body to 'yellow' using JS: `document.body.style.backgroundColor = 'yellow';`",
+                initialCode: "// Log a message and change the background color\n",
+                htmlContext: "<h1>Check the console!</h1>",
+                cssContext: "body { transition: background 0.5s; }",
+                language: "javascript",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "styleMatch",
+                        selector: "body",
+                        propertyName: "backgroundColor",
+                        expected: "rgb(255, 255, 0)",
+                        message: "The background color must be yellow."
+                    },
+                    {
+                        type: "regex",
+                        expected: "console\\.log\\s*\\(\\s*['\"]Level 13 Complete['\"]\\s*\\)",
+                        message: "You must log: Level 13 Complete"
+                    }
+                ],
+                order: 13
             }
         ];
 

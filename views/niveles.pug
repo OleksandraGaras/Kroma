@@ -6,25 +6,37 @@ block content
     section.editor-side
       // PESTAÑAS
       .editor-tabs
+        button#tab-instructions.tab.active Instruccions
         if level.language === 'css'
           button#tab-html.tab HTML
-          button#tab-css.tab.active CSS
+          button#tab-css.tab CSS
+        else if level.language === 'javascript'
+          button#tab-html.tab HTML
+          button#tab-css.tab CSS
+          button#tab-js.tab JS
         else 
-          button#tab-editor.tab.active Codi
-        button#tab-instructions.tab Instruccions
+          button#tab-editor.tab Codi
       
       // EDITOR
       .code-editor
-        #editor-container(style="width: 100%; height: 100%; border-radius: 12px; overflow: hidden;")
-        #instructions-container.hidden(style="padding: 20px; color: #eee; font-size: 1.1rem; line-height: 1.6;")
+        #editor-container.hidden(style="width: 100%; height: 100%; border-radius: 12px; overflow: hidden;")
+        #instructions-container(style="padding: 20px; color: #eee; font-size: 1.1rem; line-height: 1.6;")
           h2= level.title
-          div(style="margin-top: 15px;") !{level.description}
-                   
+          div(style="margin-top: 15px; white-space: pre-wrap;")= level.description      
     // DERECHA
     section.preview-side
       // PREVIEW
-      .preview-window
-        iframe#preview-iframe(style="width: 100%; height: 100%; border: none; background: white;")
+      .preview-window(style="height: 60%; position: relative;")
+        // BOTÓN EJECUTAR FLOTANTE
+        button#run-btn(style="position: absolute; top: 10px; right: 10px; z-index: 100; padding: 10px 20px; background: #00ff00; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,255,0,0.3);")
+          | EXECUTAR COD &nbsp; &#9654;
+        
+        iframe#preview-iframe(sandbox="allow-scripts allow-modals" style="width: 100%; height: 100%; border: none; background: white;")
+      
+      // TERMINAL
+      .terminal-container(style="width: 100%; height: 25%; background: #1a1a1a; border-radius: 12px; border: 1px solid #333; padding: 15px; overflow-y: auto; font-family: monospace; font-size: 0.9rem;")
+        #terminal-output(style="color: #00ff00;")
+          div(style="color: #888; border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 10px;") Console Output:
       
       // BOTÓN
       form#level-form(action=`/mapa/${level.language}/nivel/${level.order}/complete` method="POST")
@@ -41,6 +53,13 @@ block content
   script.
     const levelData = !{JSON.stringify(level)};
   script(src="/js/editor.js")
+
+  // CUSTOM ALERT MODAL
+  #custom-alert-modal.hidden(style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);")
+    .modal-content(style="background: #2a2a2a; border: 2px solid #cc5555; border-radius: 16px; padding: 30px; max-width: 450px; width: 90%; text-align: center; box-shadow: 0 0 30px rgba(204, 85, 85, 0.4);")
+      h3(style="color: #ffcccc; margin-bottom: 15px; font-size: 1.5rem;") Alerta de Kroma
+      p#custom-alert-message(style="color: #eee; font-size: 1.1rem; line-height: 1.5; margin-bottom: 25px;")
+      button.finish-btn(onclick="document.getElementById('custom-alert-modal').classList.add('hidden')" style="width: auto; padding: 10px 30px;") D'ACORD
 
   style.
     .hidden { display: none !important; }

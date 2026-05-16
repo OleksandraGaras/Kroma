@@ -67,42 +67,68 @@ exports.completar = ('/nivel/:id/complete', async (req, res) => {
 function validateSolution(level, submittedCode) {
   const { validationType, validationTests, solutionCode } = level;
 
-  // 1. Literal validation (backward compatibility or explicit)
-  if (validationType === 'literal' || !validationType) {
-    const normalizedSolution = solutionCode.replace(/\s/g, '').toLowerCase();
-    const normalizedSubmission = submittedCode.replace(/\s/g, '').toLowerCase();
-    
-    if (normalizedSubmission.includes(normalizedSolution)) {
+  // 1. Literal/Regex validation on the code itself (if not DOM type)
+  if (validationType === 'literal' || validationType === 'regex') {
+    // If we have specific validationTests of type 'regex' or 'literal', use them
+    if (validationTests && validationTests.length > 0) {
+      for (const test of validationTests) {
+        if (test.type === 'regex') {
+          const regex = new RegExp(test.expected, 'i');
+          if (!regex.test(submittedCode)) {
+            return { success: false, message: test.message || 'El codi no compleix el format requerit.' };
+          }
+        } else if (test.type === 'literal') {
+          const normalizedExpected = test.expected.replace(/\s/g, '').toLowerCase();
+          const normalizedSubmitted = submittedCode.replace(/\s/g, '').toLowerCase();
+          if (!normalizedSubmitted.includes(normalizedExpected)) {
+            return { success: false, message: test.message || 'El codi no és correcte.' };
+          }
+        }
+      }
       return { success: true };
     }
-    return { success: false, message: 'El codi no coincideix amb la solució esperada.' };
-  }
 
-  // 2. Regex validation
-  if (validationType === 'regex') {
-    try {
-      const regex = new RegExp(solutionCode, 'i');
-      if (regex.test(submittedCode)) {
-        return { success: true };
-      }
-      return { success: false, message: 'El codi no compleix el format requerit.' };
-    } catch (e) {
-      console.error('Invalid regex in level:', level.order);
-      return { success: false, message: 'Error en la validació del servidor.' };
+    // Fallback to solutionCode if no validationTests
+    const target = solutionCode || '';
+    if (validationType === 'regex') {
+      const regex = new RegExp(target, 'i');
+      if (regex.test(submittedCode)) return { success: true };
+    } else {
+      const normalizedSolution = target.replace(/\s/g, '').toLowerCase();
+      const normalizedSubmission = submittedCode.replace(/\s/g, '').toLowerCase();
+      if (normalizedSubmission.includes(normalizedSolution)) return { success: true };
     }
+    return { success: false, message: 'El codi no és correcte.' };
   }
 
-  // 3. DOM validation (for HTML/CSS)
+  // 2. DOM validation (for HTML/CSS/JS)
   if (validationType === 'dom') {
-    const htmlToParse = (level.language === 'css') 
-      ? `<html><head><style>${submittedCode}</style></head><body>${level.htmlContext}</body></html>`
-      : submittedCode;
+    let htmlToParse;
+    let runScripts = false;
 
-    const dom = new JSDOM(htmlToParse);
+    if (level.language === 'css') {
+      htmlToParse = `<html><head><style>${submittedCode}</style></head><body>${level.htmlContext}</body></html>`;
+    } else if (level.language === 'javascript') {
+      htmlToParse = `<html><head><style>${level.cssContext || ''}</style></head><body>${level.htmlContext}</body></html>`;
+      runScripts = true;
+    } else {
+      htmlToParse = submittedCode;
+    }
+
+    const dom = new JSDOM(htmlToParse, runScripts ? { runScripts: "dangerously", resources: "usable" } : {});
     const document = dom.window.document;
 
+    // If JS, we need to manually execute the script in the context
+    if (runScripts) {
+      try {
+        dom.window.eval(submittedCode);
+      } catch (e) {
+        return { success: false, message: 'Error en executar el teu JavaScript: ' + e.message };
+      }
+    }
+
     for (const test of validationTests) {
-      const element = document.querySelector(test.selector);
+      const element = test.selector ? document.querySelector(test.selector) : null;
 
       switch (test.type) {
         case 'selectorExists':
@@ -138,10 +164,15 @@ function validateSolution(level, submittedCode) {
           }
           const style = dom.window.getComputedStyle(element);
           const actualValue = style[test.propertyName];
-          
-          // Basic normalization for colors/values
           if (actualValue !== test.expected) {
             return { success: false, message: test.message || `La propietat ${test.propertyName} de ${test.selector} ha de ser ${test.expected}.` };
+          }
+          break;
+        
+        case 'regex':
+          const regex = new RegExp(test.expected, 'i');
+          if (!regex.test(submittedCode)) {
+            return { success: false, message: test.message || 'El codi no compleix el format requerit.' };
           }
           break;
       }

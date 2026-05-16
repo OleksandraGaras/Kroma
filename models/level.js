@@ -25,6 +25,10 @@ const levelSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    cssContext: {
+        type: String,
+        default: ''
+    },
     validationType: {
         type: String,
         enum: ['literal', 'regex', 'dom'],

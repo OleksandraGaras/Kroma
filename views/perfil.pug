@@ -22,7 +22,27 @@ block content
                 input(type="file" name="avatar" accept="image/*" required)
               button(type="submit" class="btn-upload") Actualizar Foto
         .profile-info
-          h1.profile-name #{user.name}
+          h1.profile-name
+            | #{user.name}
+            - const completed = user.completedLevels || []
+            - let emblemText = 'Iniciado'
+            - let emblemClass = 'emblem-novice'
+            - if (completed.includes(13))
+              - emblemText = 'Full-Stack Grandmaster'
+              - emblemClass = 'emblem-grandmaster'
+            - else if (completed.some(o => o >= 11 && o <= 13))
+              - emblemText = 'Script Sorcerer'
+              - emblemClass = 'emblem-sorcerer'
+            - else if (completed.some(o => o >= 7 && o <= 10))
+              - emblemText = 'Style Alchemist'
+              - emblemClass = 'emblem-alchemist'
+            - else if (completed.some(o => o === 5 || o === 6))
+              - emblemText = 'Web Architect'
+              - emblemClass = 'emblem-architect'
+            - else if (completed.some(o => o >= 1 && o <= 4))
+              - emblemText = 'HTML Apprentice'
+              - emblemClass = 'emblem-apprentice'
+            span.user-emblem(class=emblemClass) #{emblemText}
           .profile-stats
             .stat-item
               span.stat-label Nivel
@@ -37,40 +57,45 @@ block content
           .skill-item
             span.skill-name HTML
             .skill-level-bar
-              .skill-progress(style='width: 95%; background: #e34c26;')
-            span.skill-level-text Avanzado
+              .skill-progress(style=`width: ${progress.html.percentage}%; background: #e34c26; box-shadow: 0 0 10px #e34c26;`)
+            span.skill-level-text #{progress.html.rank} (#{progress.html.percentage}%)
           .skill-item
             span.skill-name CSS
             .skill-level-bar
-              .skill-progress(style='width: 88%; background: #1572b6;')
-            span.skill-level-text Avanzado
+              .skill-progress(style=`width: ${progress.css.percentage}%; background: #1572b6; box-shadow: 0 0 10px #1572b6;`)
+            span.skill-level-text #{progress.css.rank} (#{progress.css.percentage}%)
           .skill-item
             span.skill-name JavaScript
             .skill-level-bar
-              .skill-progress(style='width: 72%; background: #f0db4f;')
-            span.skill-level-text Intermedio-Avanzado
+              .skill-progress(style=`width: ${progress.javascript.percentage}%; background: #f0db4f; box-shadow: 0 0 10px #f0db4f;`)
+            span.skill-level-text #{progress.javascript.rank} (#{progress.javascript.percentage}%)
           .skill-item
             span.skill-name PHP
             .skill-level-bar
-              .skill-progress(style='width: 65%; background: #777bb4;')
-            span.skill-level-text Intermedio
+              .skill-progress(style=`width: ${progress.php.percentage}%; background: #777bb4; box-shadow: 0 0 10px #777bb4;`)
+            span.skill-level-text #{progress.php.rank}
           .skill-item
             span.skill-name React
             .skill-level-bar
-              .skill-progress(style='width: 45%; background: #61dafb;')
-            span.skill-level-text Intermedio
+              .skill-progress(style=`width: ${progress.react.percentage}%; background: #61dafb; box-shadow: 0 0 10px #61dafb;`)
+            span.skill-level-text #{progress.react.rank}
       // Derecha: Colores de niveles + Insignias
       .achievements-section
         .level-colors
           h3 Paleta de niveles alcanzados
           .color-circles
-            .color-circle.red
-            .color-circle.orange
-            .color-circle.yellow
-            .color-circle.green
-            .color-circle.blue
-            .color-circle.purple
-            .color-circle.cyan.active
+            - const hasHtml = completed.some(o => o >= 1 && o <= 4)
+            - const hasHtmlAdv = completed.some(o => o === 5 || o === 6)
+            - const hasCss = completed.some(o => o >= 7 && o <= 10)
+            - const hasJs = completed.some(o => o >= 11 && o <= 13)
+            - const hasAll = completed.includes(13)
+            .color-circle.red(class=hasHtml ? 'active' : '' title="HTML Desbloqueado")
+            .color-circle.orange(class=hasHtmlAdv ? 'active' : '' title="HTML Avanzado Desbloqueado")
+            .color-circle.yellow(class=hasCss ? 'active' : '' title="CSS Desbloqueado")
+            .color-circle.green(class=hasJs ? 'active' : '' title="JavaScript Desbloqueado")
+            .color-circle.blue(class=false ? 'active' : '' title="Próximamente")
+            .color-circle.purple(class=false ? 'active' : '' title="Próximamente")
+            .color-circle.cyan(class=hasAll ? 'active' : '' title="Paleta Completa Kroma")
         .badges-grid
           h3 Insignias obtenidas
           .badges-container

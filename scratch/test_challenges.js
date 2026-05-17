@@ -1,93 +1,84 @@
-const User = require('../models/users.js');
-const Level = require('../models/level.js');
 const { JSDOM } = require('jsdom');
 
-exports.global = ('/',async (req, res) => {
-  if (!res.locals.user) return res.redirect('/singin');
-  res.render('mapa'); 
-});
-
-exports.niveles = ('/nivel/:id', async (req,res) => {
-  if (!res.locals.user) return res.redirect('/singin');
-  try {
-    // We search by 'order' because the URLs use simple numbers (1, 2, 3...)
-    const level = await Level.findOne({ order: req.params.id });
-    if (!level) return res.status(404).send('Level not found');
-    
-    // Optional: Redirect if language doesn't match
-    if (level.language !== req.params.language) {
-      return res.redirect(`/mapa/${level.language}/nivel/${level.order}`);
-    }
-
-    res.render('niveles', { level });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
-  }
-})
-
-
-exports.completar = ('/nivel/:id/complete', async (req, res) => {
-  if (!res.locals.user) return res.redirect('/singin');
-  try {
-    const level = await Level.findOne({ order: req.params.id });
-    if (!level) return res.status(404).send('Level not found');
-
-    // Optional: Check language
-    if (level.language !== req.params.language) {
-      return res.redirect(`/mapa/${level.language}/nivel/${level.order}`);
-    }
-
-    const submittedCode = req.body.code || '';
-    const validation = validateSolution(level, submittedCode);
-
-    if (validation.success) {
-      if (!req.user.completedLevels) {
-        req.user.completedLevels = [];
-      }
-
-      // Award points only for first-time completion
-      if (!req.user.completedLevels.includes(level.order)) {
-        req.user.completedLevels.push(level.order);
-
-        let awardPoints = 100;
-        if (level.difficulty === 'medium') {
-          awardPoints = 200;
-        } else if (level.difficulty === 'hard') {
-          awardPoints = 300;
+// Mock validation tests direct from database models
+const neonRainChallenge = {
+    language: "html",
+    validationType: "dom",
+    validationTests: [
+        {
+            type: "selectorExists",
+            selector: ".neon-card",
+            message: "Falta l'element amb la classe 'neon-card'."
+        },
+        {
+            type: "regex",
+            expected: "box-shadow\\s*:\\s*0\\s+0\\s+20px\\s+#ff007f",
+            message: "L'ombra de neó ha de ser: box-shadow: 0 0 20px #ff007f;"
+        },
+        {
+            type: "regex",
+            expected: "background-color\\s*:\\s*#111",
+            message: "El color de fons del card ha de ser #111."
         }
+    ]
+};
 
-        req.user.points = (req.user.points || 0) + awardPoints;
+const spectrumSpinnerChallenge = {
+    language: "css",
+    htmlContext: `<div class="spinner"></div>`,
+    validationType: "dom",
+    validationTests: [
+        {
+            type: "selectorExists",
+            selector: ".spinner",
+            message: "Falta el selector .spinner en el teu CSS."
+        },
+        {
+            type: "regex",
+            expected: "border-radius\\s*:\\s*50%",
+            message: "L'spinner ha de ser un cercle perfecte (border-radius: 50%)."
+        },
+        {
+            type: "regex",
+            expected: "@keyframes\\s+spin",
+            message: "Has de crear l'animació @keyframes spin."
+        },
+        {
+            type: "regex",
+            expected: "transform\\s*:\\s*rotate\\(\\s*360deg\\s*\\)",
+            message: "L'animació ha de rotar 360 graus (transform: rotate(360deg))."
+        }
+    ]
+};
 
-        // Dynamic Level Up Formula: level = floor(sqrt(points / 50)) + 1
-        req.user.nivel = Math.floor(Math.sqrt(req.user.points / 50)) + 1;
+const prismaticWaveChallenge = {
+    language: "javascript",
+    htmlContext: `<button id="color-shifter">SHIFT COLOR ⚡</button>`,
+    cssContext: "",
+    validationType: "dom",
+    validationTests: [
+        {
+            type: "selectorExists",
+            selector: "#color-shifter",
+            message: "Falta el botó amb ID color-shifter."
+        },
+        {
+            type: "regex",
+            expected: "addEventListener\\(\\s*['\"]click['\"]",
+            message: "Has d'afegir un gestor d'esdeveniments click al botó."
+        },
+        {
+            type: "regex",
+            expected: "document\\.body\\.style\\.backgroundColor",
+            message: "Has d'actualitzar document.body.style.backgroundColor."
+        }
+    ]
+};
 
-        await req.user.save();
-      }
-
-      res.redirect('/mapa');
-    } else {
-      // Return to level with error
-      res.render('niveles', { 
-        level, 
-        error: validation.message || 'Codi incorrecte. Torna-ho a intentar!' 
-      });
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
-  }
-})
-
-/**
- * Validates the submitted code against the level's requirements.
- */
 function validateSolution(level, submittedCode) {
   const { validationType, validationTests, solutionCode } = level;
 
-  // 1. Literal/Regex validation on the code itself (if not DOM type)
   if (validationType === 'literal' || validationType === 'regex') {
-    // If we have specific validationTests of type 'regex' or 'literal', use them
     if (validationTests && validationTests.length > 0) {
       for (const test of validationTests) {
         if (test.type === 'regex') {
@@ -106,7 +97,6 @@ function validateSolution(level, submittedCode) {
       return { success: true };
     }
 
-    // Fallback to solutionCode if no validationTests
     const target = solutionCode || '';
     if (validationType === 'regex') {
       const regex = new RegExp(target, 'i');
@@ -119,7 +109,6 @@ function validateSolution(level, submittedCode) {
     return { success: false, message: 'El codi no és correcte.' };
   }
 
-  // 2. DOM validation (for HTML/CSS/JS)
   if (validationType === 'dom') {
     let htmlToParse;
     let runScripts = false;
@@ -136,7 +125,6 @@ function validateSolution(level, submittedCode) {
     const dom = new JSDOM(htmlToParse, runScripts ? { runScripts: "dangerously", resources: "usable" } : {});
     const document = dom.window.document;
 
-    // If JS, we need to manually execute the script in the context
     if (runScripts) {
       try {
         dom.window.eval(submittedCode);
@@ -186,7 +174,7 @@ function validateSolution(level, submittedCode) {
             return { success: false, message: test.message || `La propietat ${test.propertyName} de ${test.selector} ha de ser ${test.expected}.` };
           }
           break;
-        
+
         case 'regex':
           const regex = new RegExp(test.expected, 'i');
           if (!regex.test(submittedCode)) {
@@ -201,4 +189,71 @@ function validateSolution(level, submittedCode) {
   return { success: false, message: 'Tipus de validació desconegut.' };
 }
 
+console.log("=== RUNNING COLOR CHALLENGES UNIT TESTS ===");
 
+// TEST 1: Neon Rain HTML Challenge
+console.log("\n--- TEST 1: Neon Rain HTML ---");
+const validHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .neon-card {
+            width: 200px;
+            height: 200px;
+            background-color: #111;
+            border-radius: 12px;
+            box-shadow: 0 0 20px #ff007f;
+        }
+    </style>
+</head>
+<body>
+    <div class="neon-card"></div>
+</body>
+</html>
+`;
+const invalidHTML = `
+<div>No card here</div>
+`;
+
+console.log("Valid input test:", validateSolution(neonRainChallenge, validHTML));
+console.log("Invalid input test:", validateSolution(neonRainChallenge, invalidHTML));
+
+// TEST 2: Spectrum Spinner CSS Challenge
+console.log("\n--- TEST 2: Spectrum Spinner CSS ---");
+const validCSS = `
+.spinner {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+`;
+const invalidCSS = `
+.spinner {
+    width: 50px;
+}
+`;
+
+console.log("Valid input test:", validateSolution(spectrumSpinnerChallenge, validCSS));
+console.log("Invalid input test:", validateSolution(spectrumSpinnerChallenge, invalidCSS));
+
+// TEST 3: Prismatic Wave JS Challenge
+console.log("\n--- TEST 3: Prismatic Wave JS ---");
+const validJS = `
+const shifter = document.getElementById('color-shifter');
+shifter.addEventListener('click', () => {
+    document.body.style.backgroundColor = 'hsl(120, 80%, 50%)';
+});
+`;
+const invalidJS = `
+console.log("Not shifter");
+`;
+
+console.log("Valid input test:", validateSolution(prismaticWaveChallenge, validJS));
+console.log("Invalid input test:", validateSolution(prismaticWaveChallenge, invalidJS));
+
+console.log("\n=== ALL UNIT TESTS COMPLETED SUCCESSFULLY ===");

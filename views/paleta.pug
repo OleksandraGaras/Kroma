@@ -1,0 +1,85 @@
+extends layout
+
+block content
+  .paleta-container
+    .paleta-header
+      h1.glow-text GENERADOR DE PALETES
+      p.subtitle Crea esquemes de colors harmònics basats en els teus colors desbloquejats.
+
+    .palette-workspace
+      // Left Panel: Controls
+      .palette-controls
+        .control-group
+          h3 1. Color Base
+          .color-picker-wrapper
+            input(type="color" id="base-color-picker" value="#e34c26")
+            span.picker-hex #E34C26
+            
+        .control-group
+          h3 2. Harmonia
+          .harmony-selector
+            button.harmony-btn.active(data-harmony="analogous") Anàloga
+            button.harmony-btn(data-harmony="monochromatic") Monocromàtica
+            button.harmony-btn(data-harmony="triadic") Triàdica
+            button.harmony-btn(data-harmony="complementary") Complementària
+            button.harmony-btn(data-harmony="split-complementary") Dividida
+
+        .control-group.unlocked-rack
+          h3 3. Els Teus Colors
+          
+          h4.rack-subtitle Core Elements (Nivells)
+          .rack-grid
+            each color in colors
+              if ['red', 'orange', 'yellow', 'green'].includes(color.id)
+                if color.unlocked
+                  .color-item.core-element(data-hex=color.hex title=color.name style=`--item-color: ${color.hex}`)
+                    .core-energy
+                else
+                  .color-item.locked(title=color.reqMsg) 🔒
+          
+          h4.rack-subtitle Neon Accents (Reptes)
+          .rack-grid
+            each color in colors
+              if ['blue', 'purple', 'cyan'].includes(color.id)
+                if color.unlocked
+                  .color-item.neon-accent(data-hex=color.hex title=color.name style=`--item-color: ${color.hex}`)
+                    .neon-crystal
+                else
+                  .color-item.locked(title=color.reqMsg) 🔒
+
+      // Right Panel: 5-Color Display
+      .palette-display
+        .palette-bars
+          .palette-bar#bar-1
+            .bar-color
+            .bar-info
+              span.bar-hex #000000
+              button.btn-copy-hex(title="Copiar") 📋
+          .palette-bar.base-bar#bar-2
+            .bar-color
+            .bar-info
+              span.bar-hex #000000
+              span.base-indicator Base
+              button.btn-copy-hex(title="Copiar") 📋
+          .palette-bar#bar-3
+            .bar-color
+            .bar-info
+              span.bar-hex #000000
+              button.btn-copy-hex(title="Copiar") 📋
+          .palette-bar#bar-4
+            .bar-color
+            .bar-info
+              span.bar-hex #000000
+              button.btn-copy-hex(title="Copiar") 📋
+          .palette-bar#bar-5
+            .bar-color
+            .bar-info
+              span.bar-hex #000000
+              button.btn-copy-hex(title="Copiar") 📋
+
+        .palette-actions
+          button#btn-copy-palette.cta-button Exportar CSS
+          .css-output-container.hidden
+            code#palette-css-output
+
+  script(src='/js/paleta.js')

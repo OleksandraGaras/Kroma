@@ -1,70 +1,106 @@
 extends layout 
 
 block content
+  - const completed = user.completedLevels || []
+  - const isUnlocked = (order) => {
+  -   if (order > 13) return false;
+  -   if (order === 1 || order === 7 || order === 11) return true;
+  -   return completed.includes(order - 1);
+  - }
+  - const getStatusClass = (order) => {
+  -   if (completed.includes(order)) return 'completed';
+  -   if (isUnlocked(order)) return 'unlocked';
+  -   return 'locked';
+  - }
+
   .container
     .skill-map
-      // Rama ROJA
-      .node.red.r1
-        a(href='/mapa/html/nivel/1')
+      // Rama ROJA (HTML básico)
+      .node.red.r1(class=getStatusClass(1))
+        if getStatusClass(1) !== 'locked'
+          a(href='/mapa/html/nivel/1')
         span 1
-      .node.red.r2
-        a(href='/mapa/html/nivel/2')
+      .node.red.r2(class=getStatusClass(2))
+        if getStatusClass(2) !== 'locked'
+          a(href='/mapa/html/nivel/2')
         span 2
-      .node.red.r3
-        a(href='/mapa/html/nivel/3')
+      .node.red.r3(class=getStatusClass(3))
+        if getStatusClass(3) !== 'locked'
+          a(href='/mapa/html/nivel/3')
         span 3
-      .node.red.r4
-        a(href='/mapa/html/nivel/4')
+      .node.red.r4(class=getStatusClass(4))
+        if getStatusClass(4) !== 'locked'
+          a(href='/mapa/html/nivel/4')
         span 4
-      // Rama NARANJA
-      .node.red.o1
-        a(href='/mapa/html/nivel/5')
+
+      // Rama NARANJA (HTML avanzado)
+      .node.orange.o1(class=getStatusClass(5))
+        if getStatusClass(5) !== 'locked'
+          a(href='/mapa/html/nivel/5')
         span 5
-      .node.red.o2
-        a(href='/mapa/html/nivel/6')
+      .node.orange.o2(class=getStatusClass(6))
+        if getStatusClass(6) !== 'locked'
+          a(href='/mapa/html/nivel/6')
         span 6
-      .node.yellow.o3
-        a(href='/mapa/css/nivel/7')
+      .node.yellow.o3(class=getStatusClass(7))
+        if getStatusClass(7) !== 'locked'
+          a(href='/mapa/css/nivel/7')
         span 7
-      // Rama AMARILLA
-      .node.yellow.y1
-        a(href='/mapa/css/nivel/8')
+
+      // Rama AMARILLA (CSS)
+      .node.yellow.y1(class=getStatusClass(8))
+        if getStatusClass(8) !== 'locked'
+          a(href='/mapa/css/nivel/8')
         span 8
-      .node.yellow.y2
-        a(href='/mapa/css/nivel/9')
+      .node.yellow.y2(class=getStatusClass(9))
+        if getStatusClass(9) !== 'locked'
+          a(href='/mapa/css/nivel/9')
         span 9
-      .node.yellow.y3
-        a(href='/mapa/css/nivel/10')
+      .node.yellow.y3(class=getStatusClass(10))
+        if getStatusClass(10) !== 'locked'
+          a(href='/mapa/css/nivel/10')
         span 10
-      // Rama VERDE
-      .node.green.g1
-        a(href='/mapa/javascript/nivel/11')
+
+      // Rama VERDE (JavaScript)
+      .node.green.g1(class=getStatusClass(11))
+        if getStatusClass(11) !== 'locked'
+          a(href='/mapa/javascript/nivel/11')
         span 11
-      .node.green.g2
-        a(href='/mapa/javascript/nivel/12')
+      .node.green.g2(class=getStatusClass(12))
+        if getStatusClass(12) !== 'locked'
+          a(href='/mapa/javascript/nivel/12')
         span 12
-      .node.green.g3
-        a(href='/mapa/javascript/nivel/13')
+      .node.green.g3(class=getStatusClass(13))
+        if getStatusClass(13) !== 'locked'
+          a(href='/mapa/javascript/nivel/13')
         span 13
-      // Rama AZUL
-      .node.blue.b1
-        a(href='/mapa/nivel/14')
+
+      // Rama AZUL (Próximamente)
+      .node.blue.b1(class=getStatusClass(14))
+        if getStatusClass(14) !== 'locked'
+          a(href='/mapa/nivel/14')
         span 14
-      .node.blue.b2
-        a(href='/mapa/nivel/15')
+      .node.blue.b2(class=getStatusClass(15))
+        if getStatusClass(15) !== 'locked'
+          a(href='/mapa/nivel/15')
         span 15
-      .node.blue.b3
-        a(href='/mapa/nivel/16')
+      .node.blue.b3(class=getStatusClass(16))
+        if getStatusClass(16) !== 'locked'
+          a(href='/mapa/nivel/16')
         span 16
-      .node.blue.b4
-        a(href='/mapa/nivel/17')
+      .node.blue.b4(class=getStatusClass(17))
+        if getStatusClass(17) !== 'locked'
+          a(href='/mapa/nivel/17')
         span 17
-      // Rama PÚRPURA
-      .node.purple.p1
-        a(href='/mapa/nivel/18')
+
+      // Rama PÚRPURA (Próximamente)
+      .node.purple.p1(class=getStatusClass(18))
+        if getStatusClass(18) !== 'locked'
+          a(href='/mapa/nivel/18')
         span 18
-      .node.purple.p2
-        a(href='/mapa/nivel/19')
+      .node.purple.p2(class=getStatusClass(19))
+        if getStatusClass(19) !== 'locked'
+          a(href='/mapa/nivel/19')
         span 19
 
     .info +info

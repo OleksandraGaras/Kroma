@@ -1473,3 +1473,713 @@ header {
 .preview-window {
   height: 100%;
 }
+
+/* ==========================================
+   NIVELES LOCKED & COMPLETED STYLES
+   ========================================== */
+.node.locked {
+  filter: grayscale(80%) brightness(0.35);
+  cursor: not-allowed !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+  opacity: 0.8;
+}
+
+.node.locked:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.node.locked a {
+  pointer-events: none !important;
+}
+
+.node.locked::after {
+  content: "🔒";
+  position: absolute;
+  font-size: 16px;
+  bottom: -4px;
+  right: -4px;
+  background: rgba(10,3,1,0.9);
+  border: 1px solid rgba(140,40,40,0.5);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.node.completed {
+  border-color: #2ecc71 !important;
+  box-shadow: 0 0 20px 4px rgba(46, 204, 113, 0.5) !important;
+}
+
+.node.completed::after {
+  content: "✔";
+  position: absolute;
+  font-size: 14px;
+  color: #2ecc71;
+  top: -8px;
+  right: -8px;
+  background: #111;
+  border: 2px solid #2ecc71;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+/* ==========================================
+   DYNAMIC PROFILE EMBLEMS & STYLING
+   ========================================== */
+.user-emblem {
+  margin-left: 15px;
+  font-size: 0.85rem !important;
+  vertical-align: middle;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  border: 1px solid currentColor;
+  text-transform: uppercase;
+  display: inline-block;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.emblem-novice {
+  color: #a0a0a0;
+  text-shadow: 0 0 10px rgba(160, 160, 160, 0.4);
+  box-shadow: 0 0 8px rgba(160, 160, 160, 0.2);
+}
+
+.emblem-apprentice {
+  color: #ff4d4d;
+  text-shadow: 0 0 12px rgba(255, 77, 77, 0.6);
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
+}
+
+.emblem-architect {
+  color: #ff9933;
+  text-shadow: 0 0 12px rgba(255, 153, 51, 0.6);
+  box-shadow: 0 0 10px rgba(255, 153, 51, 0.3);
+}
+
+.emblem-alchemist {
+  color: #ffcc00;
+  text-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+}
+
+.emblem-sorcerer {
+  color: #2ecc71;
+  text-shadow: 0 0 12px rgba(46, 204, 113, 0.6);
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
+}
+
+.emblem-grandmaster {
+  color: #00ffff;
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+  animation: emblemGlow 2s infinite alternate;
+}
+
+@keyframes emblemGlow {
+  from { box-shadow: 0 0 8px rgba(0, 255, 255, 0.3); }
+  to { box-shadow: 0 0 16px rgba(0, 255, 255, 0.6); }
+}
+
+/* ==========================================
+   DIFFICULTY & POINTS BADGES (LEVEL PAGE)
+   ========================================== */
+.difficulty-badge {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.difficulty-easy {
+  background: linear-gradient(135deg, #1b5e20, #388e3c);
+  border: 1px solid #81c784;
+  box-shadow: 0 2px 8px rgba(27, 94, 32, 0.3);
+}
+
+.difficulty-medium {
+  background: linear-gradient(135deg, #e65100, #ff9800);
+  border: 1px solid #ffb74d;
+  box-shadow: 0 2px 8px rgba(230, 81, 0, 0.3);
+}
+
+.difficulty-hard {
+  background: linear-gradient(135deg, #b71c1c, #e53935);
+  border: 1px solid #ef5350;
+  box-shadow: 0 2px 8px rgba(183, 28, 28, 0.3);
+}
+
+.points-badge {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffcccc;
+  text-shadow: 0 0 5px rgba(255, 204, 204, 0.4);
+}
+
+/* ==========================================
+   PÁGINA DE DESAFÍOS (COLOR CHALLENGES)
+   ========================================== */
+.desafios-container {
+  padding: 60px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.desafios-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.glow-text {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(to right, #ff007f, #7f00ff, #00ffcc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(127, 0, 255, 0.4));
+  margin-bottom: 15px;
+}
+
+.desafios-header .subtitle {
+  font-size: 1.2rem;
+  color: #ffcccc;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.desafios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.desafio-card {
+  position: relative;
+  background: rgba(20, 10, 10, 0.45);
+  border: 1px solid rgba(140, 40, 40, 0.35);
+  border-radius: 20px;
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 380px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+}
+
+.desafio-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  transition: background-color 0.4s ease;
+}
+
+/* Glow Borders based on State and Difficulty */
+.desafio-card.active.glow-easy {
+  border-color: rgba(0, 255, 204, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 255, 204, 0.05);
+}
+.desafio-card.active.glow-easy::before {
+  background: linear-gradient(90deg, #00ffcc, #00bfff);
+}
+
+.desafio-card.active.glow-medium {
+  border-color: rgba(255, 152, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(255, 152, 0, 0.05);
+}
+.desafio-card.active.glow-medium::before {
+  background: linear-gradient(90deg, #ff9800, #ff5722);
+}
+
+.desafio-card.active.glow-hard {
+  border-color: rgba(255, 0, 127, 0.3);
+  box-shadow: 0 8px 32px rgba(255, 0, 127, 0.05);
+}
+.desafio-card.active.glow-hard::before {
+  background: linear-gradient(90deg, #ff007f, #aa00ff);
+}
+
+/* Completed Card Glow */
+.desafio-card.completed {
+  border-color: rgba(76, 175, 80, 0.4);
+  box-shadow: 0 8px 32px rgba(76, 175, 80, 0.08);
+  background: rgba(10, 25, 15, 0.45);
+  cursor: pointer;
+}
+.desafio-card.completed::before {
+  background: linear-gradient(90deg, #4caf50, #8bc34a);
+}
+
+/* Active Hover animations */
+.desafio-card.active:hover {
+  transform: translateY(-8px);
+  cursor: pointer;
+}
+.desafio-card.active.glow-easy:hover {
+  border-color: rgba(0, 255, 204, 0.7);
+  box-shadow: 0 16px 40px rgba(0, 255, 204, 0.25);
+}
+.desafio-card.active.glow-medium:hover {
+  border-color: rgba(255, 152, 0, 0.7);
+  box-shadow: 0 16px 40px rgba(255, 152, 0, 0.25);
+}
+.desafio-card.active.glow-hard:hover {
+  border-color: rgba(255, 0, 127, 0.7);
+  box-shadow: 0 16px 40px rgba(255, 0, 127, 0.25);
+}
+.desafio-card.completed:hover {
+  transform: translateY(-8px);
+  border-color: rgba(76, 175, 80, 0.8);
+  box-shadow: 0 16px 40px rgba(76, 175, 80, 0.3);
+}
+
+/* Locked Card Styling */
+.desafio-card.locked {
+  border-color: rgba(255, 255, 255, 0.05);
+  background: rgba(15, 15, 15, 0.4);
+  filter: grayscale(100%);
+  opacity: 0.6;
+}
+
+.desafio-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+
+.badge-completed {
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.5);
+  color: #81c784;
+}
+
+.badge-unlocked {
+  background: rgba(127, 0, 255, 0.15);
+  border: 1px solid rgba(127, 0, 255, 0.4);
+  color: #d7b5ff;
+}
+
+.badge-locked {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #888;
+}
+
+.desafio-points {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffdd44;
+  text-shadow: 0 0 10px rgba(255, 221, 68, 0.4);
+  margin-bottom: 15px;
+}
+
+.desafio-points-gray {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #888;
+  margin-bottom: 15px;
+}
+
+.desafio-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.desafio-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #c0b0b0;
+  margin-bottom: 25px;
+  flex-grow: 1;
+}
+
+.desafio-meta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.difficulty-badge.easy {
+  background: linear-gradient(135deg, #1b5e20, #388e3c);
+  border: 1px solid #81c784;
+}
+.difficulty-badge.medium {
+  background: linear-gradient(135deg, #e65100, #ff9800);
+  border: 1px solid #ffb74d;
+}
+.difficulty-badge.hard {
+  background: linear-gradient(135deg, #b71c1c, #e53935);
+  border: 1px solid #ef5350;
+}
+
+.language-badge {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.locked-badge {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #777 !important;
+  box-shadow: none !important;
+}
+
+.desafio-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-start {
+  background: linear-gradient(135deg, #7f00ff, #ff007f);
+  color: white;
+  box-shadow: 0 4px 15px rgba(127, 0, 255, 0.3);
+}
+.btn-start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 0, 127, 0.5);
+  background: linear-gradient(135deg, #9400d3, #ff1493);
+}
+
+.btn-replay {
+  background: rgba(76, 175, 80, 0.15);
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  color: #81c784;
+}
+.btn-replay:hover {
+  background: #4caf50;
+  color: white;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-locked {
+  background: rgba(255, 255, 255, 0.05);
+  color: #555;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   PALETTE GENERATOR (ADOBE COLOR STYLE)
+   ========================================== */
+.paleta-container {
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.paleta-header {
+  margin-bottom: 30px;
+}
+
+.palette-workspace {
+  display: flex;
+  gap: 30px;
+  min-height: 600px;
+}
+
+/* Left Panel: Controls */
+.palette-controls {
+  flex: 0 0 350px;
+  background: rgba(20, 10, 10, 0.45);
+  border: 1px solid rgba(140, 40, 40, 0.35);
+  border-radius: 20px;
+  padding: 30px;
+  backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.control-group h3 {
+  font-size: 1.2rem;
+  color: #ffcccc;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 204, 204, 0.2);
+  padding-bottom: 8px;
+}
+
+/* Color Picker */
+.color-picker-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#base-color-picker {
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  cursor: pointer;
+  background: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+#base-color-picker::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+#base-color-picker::-webkit-color-swatch {
+  border: none;
+  border-radius: 50%;
+}
+
+.picker-hex {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+/* Harmony Selector */
+.harmony-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.harmony-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ddd;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.harmony-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.harmony-btn.active {
+  background: linear-gradient(135deg, #7f00ff, #ff007f);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(127, 0, 255, 0.3);
+}
+
+/* Unlocked Rack */
+.unlocked-rack .rack-subtitle {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin: 15px 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.rack-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.color-item {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Core Elements (Level Colors) */
+.core-element {
+  background: var(--item-color);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 15px var(--item-color), inset 0 0 10px rgba(0,0,0,0.5);
+}
+.core-energy {
+  width: 60%;
+  height: 60%;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0.8;
+  filter: blur(4px);
+  animation: pulse-energy 2s infinite alternate;
+}
+@keyframes pulse-energy {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.1); opacity: 0.9; }
+}
+
+.core-element:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 25px var(--item-color), inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Neon Accents (Challenge Colors) */
+.neon-accent {
+  background: transparent;
+  border: 2px solid var(--item-color);
+  box-shadow: 0 0 10px var(--item-color), inset 0 0 10px var(--item-color);
+  border-radius: 8px; /* Crystal shape */
+  transform: rotate(45deg);
+}
+.neon-crystal {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.8), transparent 50%);
+  opacity: 0.6;
+}
+.neon-accent:hover {
+  transform: rotate(45deg) scale(1.15);
+  box-shadow: 0 0 20px var(--item-color), inset 0 0 20px var(--item-color);
+}
+
+/* Locked */
+.color-item.locked {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  cursor: not-allowed;
+  font-size: 1.2rem;
+}
+
+/* Right Panel: Palette Display */
+.palette-display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.palette-bars {
+  flex: 1;
+  display: flex;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.palette-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: flex 0.3s ease;
+}
+
+.palette-bar:hover {
+  flex: 1.2;
+}
+
+.bar-color {
+  flex: 1;
+  transition: background-color 0.3s ease;
+}
+
+.bar-info {
+  background: #1a1a1a;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.bar-hex {
+  color: #fff;
+  font-family: monospace;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.base-indicator {
+  position: absolute;
+  top: -15px;
+  background: #fff;
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.btn-copy-hex {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: background 0.2s;
+}
+
+.btn-copy-hex:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.palette-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.css-output-container {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.css-output-container code {
+  color: #00ffcc;
+  white-space: pre-wrap;
+  font-family: monospace;
+}

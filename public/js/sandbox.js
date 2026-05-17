@@ -6,61 +6,122 @@ let htmlModel;
 let cssModel;
 let jsModel;
 
+// Beautiful initial starting code for Sandbox
+const initialHtml = `<!-- Welcome to the Kroma Coding Sandbox! -->
+<div class="sandbox-container">
+  <h1>KROMA SANDBOX 🚀</h1>
+  <p>Here you can freely experiment with HTML, CSS, and JavaScript simultaneously!</p>
+  
+  <div class="card">
+    <p>Click the button below to trigger the custom JavaScript engine and terminal logging.</p>
+    <button id="test-btn">Interact & Log ⚡</button>
+  </div>
+</div>
+`;
+
+const initialCss = `/* Write your custom styles here */
+body {
+  background: radial-gradient(circle at center, #150808 0%, #050202 100%);
+  color: #eee;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.sandbox-container {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  max-width: 500px;
+}
+
+h1 {
+  background: linear-gradient(135deg, #ff3333, #ffcc00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+p {
+  color: #b0b0b0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.card {
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+button {
+  margin-top: 15px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000;
+  background: linear-gradient(135deg, #00ff00, #00ffcc);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 255, 0, 0.5);
+}
+`;
+
+const initialJs = `// Write your JavaScript logic here
+console.log("Kroma Sandbox initialized! Try clicking the button below...");
+
+const btn = document.getElementById('test-btn');
+if (btn) {
+  btn.addEventListener('click', () => {
+    // Log info directly to Kroma's integrated console terminal
+    console.log("Button clicked! Triggering alert modal...");
+    
+    // Test the browser alert interceptor
+    alert("Awesome! You are successfully running code in Kroma Sandbox! 🚀");
+    
+    console.warn("This is a warning log message.");
+    console.error("This is an error log message, showing styling compatibility!");
+  });
+}
+`;
+
 require(['vs/editor/editor.main'], function () {
     const container = document.getElementById('editor-container');
     
-    if (levelData.language === 'css') {
-        // Create two models
-        htmlModel = monaco.editor.createModel(levelData.htmlContext, 'html');
-        cssModel = monaco.editor.createModel(levelData.initialCode, 'css');
+    // Create distinct models
+    htmlModel = monaco.editor.createModel(initialHtml, 'html');
+    cssModel = monaco.editor.createModel(initialCss, 'css');
+    jsModel = monaco.editor.createModel(initialJs, 'javascript');
 
-        editor = monaco.editor.create(container, {
-            model: cssModel,
-            theme: 'vs-dark',
-            automaticLayout: true,
-            fontSize: 18,
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            padding: { top: 20 }
-        });
-
-        cssModel.onDidChangeContent(() => updatePreview());
-    } else if (levelData.language === 'javascript') {
-        // Create three models
-        htmlModel = monaco.editor.createModel(levelData.htmlContext || '', 'html');
-        cssModel = monaco.editor.createModel(levelData.cssContext || '', 'css');
-        jsModel = monaco.editor.createModel(levelData.initialCode, 'javascript');
-
-        editor = monaco.editor.create(container, {
-            model: jsModel,
-            theme: 'vs-dark',
-            automaticLayout: true,
-            fontSize: 18,
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            padding: { top: 20 }
-        });
-
-        // For JS, we ONLY update when the "Run" button is clicked
-        // We still sync the models for preview if they change HTML/CSS, but we won't trigger the JS alert loop
-        jsModel.onDidChangeContent(() => {
-             // Just sync the hidden input, but don't run the code yet
-             document.getElementById('code-input').value = jsModel.getValue();
-        });
-    } else {
-        editor = monaco.editor.create(container, {
-            value: levelData.initialCode,
-            language: levelData.language || 'html',
-            theme: 'vs-dark',
-            automaticLayout: true,
-            fontSize: 18,
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            padding: { top: 20 }
-        });
-
-        editor.onDidChangeModelContent(() => updatePreview());
-    }
+    // Initialize Monaco Editor with the HTML model active
+    editor = monaco.editor.create(container, {
+        model: htmlModel,
+        theme: 'vs-dark',
+        automaticLayout: true,
+        fontSize: 18,
+        minimap: { enabled: false },
+        scrollBeyondLastLine: false,
+        padding: { top: 20 }
+    });
 
     // Run button listener
     const runBtn = document.getElementById('run-btn');
@@ -68,33 +129,30 @@ require(['vs/editor/editor.main'], function () {
         runBtn.addEventListener('click', () => updatePreview());
     }
 
-    // Initial preview
+    // Auto-update HTML and CSS changes in the preview immediately
+    htmlModel.onDidChangeContent(() => updatePreview());
+    cssModel.onDidChangeContent(() => updatePreview());
+
+    // Initial render
     updatePreview();
 });
 
 function updatePreview() {
-    let html, css, js = '';
-    
-    if (levelData.language === 'css') {
-        html = htmlModel.getValue();
-        css = cssModel.getValue();
-    } else if (levelData.language === 'javascript') {
-        html = htmlModel.getValue();
-        css = cssModel.getValue();
-        js = jsModel.getValue();
-    } else {
-        html = editor.getValue();
-        css = '';
-    }
+    if (!htmlModel || !cssModel || !jsModel) return;
+
+    const html = htmlModel.getValue();
+    const css = cssModel.getValue();
+    const js = jsModel.getValue();
 
     const iframe = document.getElementById('preview-iframe');
     const terminalOutput = document.getElementById('terminal-output');
     
-    // Clear terminal on each update
+    // Reset integrated console output
     if (terminalOutput) {
         terminalOutput.innerHTML = '<div style="color: #888; border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 10px;">Console Output:</div>';
     }
 
+    // Capture logs and alerts inside the iframe and send them to parent window
     const interceptorScript = `
         <script>
             (function() {
@@ -126,6 +184,7 @@ function updatePreview() {
         </script>
     `;
 
+    // Construct the unified HTML document with injected styles and scripts
     const fullHtml = `
         <!DOCTYPE html>
         <html>
@@ -149,32 +208,23 @@ function updatePreview() {
         </html>
     `;
 
-    // Use Blob URL for better isolation and performance with sandbox
+    // Package as safe Blob URL
     const blob = new Blob([fullHtml], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     
-    // Clean up old URL if it exists to avoid memory leaks
     if (iframe._oldUrl) URL.revokeObjectURL(iframe._oldUrl);
     iframe._oldUrl = url;
     
     iframe.src = url;
-
-    // Sync with hidden input
-    if (levelData.language === 'javascript') {
-        document.getElementById('code-input').value = js;
-    } else if (levelData.language === 'css') {
-        document.getElementById('code-input').value = css;
-    } else {
-        document.getElementById('code-input').value = html;
-    }
 }
 
-// Terminal & Alert Listener
+// Receive messages from isolated sandboxed iframe
 window.addEventListener('message', (event) => {
     const terminalOutput = document.getElementById('terminal-output');
     const { type, logs } = event.data;
     if (!type || !logs) return;
 
+    // Intercept alert requests to show premium custom modal
     if (type === 'USER_ALERT') {
         const modal = document.getElementById('custom-alert-modal');
         const messageEl = document.getElementById('custom-alert-message');
@@ -187,6 +237,7 @@ window.addEventListener('message', (event) => {
 
     if (!terminalOutput) return;
 
+    // Render console statements in the terminal
     logs.forEach(log => {
         const line = document.createElement('div');
         line.style.marginBottom = '4px';
@@ -207,44 +258,25 @@ window.addEventListener('message', (event) => {
         terminalOutput.appendChild(line);
     });
 
-    // Auto-scroll to bottom
+    // Auto-scroll console container to the latest statement
     const container = terminalOutput.parentElement;
     container.scrollTop = container.scrollHeight;
 });
 
-// Tab Switching Logic
-const tabEditor = document.getElementById('tab-editor');
+// Pestañas (Tab switching) logic
 const tabHtml = document.getElementById('tab-html');
 const tabCss = document.getElementById('tab-css');
 const tabJs = document.getElementById('tab-js');
-const tabInstructions = document.getElementById('tab-instructions');
-const editorContainer = document.getElementById('editor-container');
-const instructionsContainer = document.getElementById('instructions-container');
 
 function deactivateAll() {
-    [tabEditor, tabHtml, tabCss, tabJs, tabInstructions].forEach(t => t && t.classList.remove('active'));
-    editorContainer.classList.add('hidden');
-    instructionsContainer.classList.add('hidden');
-}
-
-if (tabEditor) {
-    tabEditor.addEventListener('click', () => {
-        deactivateAll();
-        tabEditor.classList.add('active');
-        editorContainer.classList.remove('hidden');
-    });
+    [tabHtml, tabCss, tabJs].forEach(t => t && t.classList.remove('active'));
 }
 
 if (tabHtml) {
     tabHtml.addEventListener('click', () => {
         deactivateAll();
         tabHtml.classList.add('active');
-        editorContainer.classList.remove('hidden');
         editor.setModel(htmlModel);
-        // Allow editing if it's JS level? The user said "one for each so the user know what he is doing".
-        // Let's keep it read-only for CSS levels, but maybe editable for JS levels?
-        // Actually, let's keep it editable for JS levels as well if they want to experiment.
-        editor.updateOptions({ readOnly: levelData.language === 'css' });
     });
 }
 
@@ -252,9 +284,7 @@ if (tabCss) {
     tabCss.addEventListener('click', () => {
         deactivateAll();
         tabCss.classList.add('active');
-        editorContainer.classList.remove('hidden');
         editor.setModel(cssModel);
-        editor.updateOptions({ readOnly: false });
     });
 }
 
@@ -262,15 +292,6 @@ if (tabJs) {
     tabJs.addEventListener('click', () => {
         deactivateAll();
         tabJs.classList.add('active');
-        editorContainer.classList.remove('hidden');
         editor.setModel(jsModel);
-        editor.updateOptions({ readOnly: false });
     });
 }
-
-tabInstructions.addEventListener('click', () => {
-    deactivateAll();
-    tabInstructions.classList.add('active');
-    instructionsContainer.classList.remove('hidden');
-});
-

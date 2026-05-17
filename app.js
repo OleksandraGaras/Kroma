@@ -11,6 +11,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma');
 const mapa = require('./routes/mapa');
 const sesion = require('./routes/sesion');
 const perfil = require('./routes/perfil');
+const editor = require('./routes/editor');
+const desafios = require('./routes/desafios');
+const paleta = require('./routes/paleta');
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -43,6 +46,9 @@ app.use('/', sesion);
 
 app.use('/mapa', mapa);
 app.use('/perfil', perfil);
+app.use('/editor', editor);
+app.use('/desafios', desafios);
+app.use('/paleta', paleta);
 
 app.use((req,res) => {
 	res.send('Not found');

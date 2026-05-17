@@ -52,6 +52,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "The <h1> text must be exactly: Hello, World!"
                     }
                 ],
+                difficulty: "easy",
                 order: 1
             },
 
@@ -114,6 +115,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "The <p> must say: I am learning HTML."
                     }
                 ],
+                difficulty: "easy",
                 order: 2
             },
 
@@ -176,6 +178,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "Add target=\"_blank\" so the link opens in a new tab."
                     }
                 ],
+                difficulty: "easy",
                 order: 3
             },
 
@@ -264,6 +267,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "The third item must be: Cherries"
                     }
                 ],
+                difficulty: "medium",
                 order: 4
             },
 
@@ -335,6 +339,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "Set alt to: A random photo"
                     }
                 ],
+                difficulty: "medium",
                 order: 5
             },
 
@@ -439,6 +444,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "The button text must be: Send"
                     }
                 ],
+                difficulty: "hard",
                 order: 6
             },
             
@@ -462,6 +468,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "The background color of the body must be lightblue."
                     }
                 ],
+                difficulty: "easy",
                 order: 7
             },
 
@@ -492,6 +499,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "The font size must be 40px."
                     }
                 ],
+                difficulty: "easy",
                 order: 8
             },
 
@@ -515,6 +523,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "The border must be 5px solid black."
                     }
                 ],
+                difficulty: "medium",
                 order: 9
             },
 
@@ -552,6 +561,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "The right margin must be auto."
                     }
                 ],
+                difficulty: "hard",
                 order: 10
             },
 
@@ -574,6 +584,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "You must use alert('Hello from Kroma!');"
                     }
                 ],
+                difficulty: "easy",
                 order: 11
             },
 
@@ -598,6 +609,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "The text of the heading must be: Kroma is awesome!"
                     }
                 ],
+                difficulty: "medium",
                 order: 12
             },
 
@@ -628,12 +640,186 @@ mongoose.connect('mongodb://127.0.0.1:27017/kroma')
                         message: "You must log: Level 13 Complete"
                     }
                 ],
+                difficulty: "hard",
                 order: 13
             }
         ];
 
-        await Level.insertMany(exercises);
-        console.log("Levels seeded successfully");
+        const challenges = [
+            // ─────────────────────────────────────────────
+            // CHALLENGE 1 – Neon Rain (HTML/CSS)
+            // ─────────────────────────────────────────────
+            {
+                title: "Neon Rain",
+                description:
+                    "Fes que la ciutat digital torni a brillar! Crea un element <div> amb la classe 'neon-card' dins del <body>. " +
+                    "Afegeix les següents propietats CSS per donar-li estil: " +
+                    "width: 200px; height: 200px; background-color: #111; border-radius: 12px; box-shadow: 0 0 20px #ff007f;",
+                initialCode: `<!DOCTYPE html>
+<html>
+<head>
+    <title>Neon Rain</title>
+    <style>
+        /* Afegeix l'estil per a .neon-card aquí */
+        
+    </style>
+</head>
+<body>
+    <!-- Crea el teu element div amb la classe neon-card -->
+    
+</body>
+</html>`,
+                solutionCode: `<!DOCTYPE html>
+<html>
+<head>
+    <title>Neon Rain</title>
+    <style>
+        .neon-card {
+            width: 200px;
+            height: 200px;
+            background-color: #111;
+            border-radius: 12px;
+            box-shadow: 0 0 20px #ff007f;
+        }
+    </style>
+</head>
+<body>
+    <div class="neon-card"></div>
+</body>
+</html>`,
+                language: "html",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "selectorExists",
+                        selector: ".neon-card",
+                        message: "Falta l'element amb la classe 'neon-card'."
+                    },
+                    {
+                        type: "regex",
+                        expected: "box-shadow\\s*:\\s*0\\s+0\\s+20px\\s+#ff007f",
+                        message: "L'ombra de neó ha de ser: box-shadow: 0 0 20px #ff007f;"
+                    },
+                    {
+                        type: "regex",
+                        expected: "background-color\\s*:\\s*#111",
+                        message: "El color de fons del card ha de ser #111."
+                    }
+                ],
+                difficulty: "easy",
+                order: 1,
+                isChallenge: true
+            },
+
+            // ─────────────────────────────────────────────
+            // CHALLENGE 2 – Spectrum Spinner (CSS)
+            // ─────────────────────────────────────────────
+            {
+                title: "Spectrum Spinner",
+                description:
+                    "Un spinner cromàtic en moviment constant! Dissenya un element '.spinner' per fer-lo circular " +
+                    "(border-radius: 50%), amb amplada i alçada de 100px. Després, crea una animació CSS anomenada " +
+                    "'spin' que el faci girar 360 graus de forma contínua i infinita (transform: rotate(360deg)).",
+                initialCode: `/* Dissenya el teu spinner aquí */
+.spinner {
+    
+}
+`,
+                solutionCode: `.spinner {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.1);
+    border-top: 5px solid #00ffcc;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+`,
+                htmlContext: `<div class="spinner"></div>`,
+                language: "css",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "selectorExists",
+                        selector: ".spinner",
+                        message: "Falta el selector .spinner en el teu CSS."
+                    },
+                    {
+                        type: "regex",
+                        expected: "border-radius\\s*:\\s*50%",
+                        message: "L'spinner ha de ser un cercle perfecte (border-radius: 50%)."
+                    },
+                    {
+                        type: "regex",
+                        expected: "@keyframes\\s+spin",
+                        message: "Has de crear l'animació @keyframes spin."
+                    },
+                    {
+                        type: "regex",
+                        expected: "transform\\s*:\\s*rotate\\(\\s*360deg\\s*\\)",
+                        message: "L'animació ha de rotar 360 graus (transform: rotate(360deg))."
+                    }
+                ],
+                difficulty: "medium",
+                order: 2,
+                isChallenge: true
+            },
+
+            // ─────────────────────────────────────────────
+            // CHALLENGE 3 – Prismatic Wave (JavaScript)
+            // ─────────────────────────────────────────────
+            {
+                title: "Prismatic Wave",
+                description:
+                    "Alquímia de colors interactiva! Programa l'element '#color-shifter' per a que, en fer clic, " +
+                    "generi un color HSL de manera aleatòria i l'assigni com a color de fons del body (document.body.style.backgroundColor).",
+                initialCode: `// Programa l'event click i el canvi de color de fons
+const shifter = document.getElementById('color-shifter');
+
+shifter.addEventListener('click', () => {
+    // Genera color i canvia el fons del body
+    
+});
+`,
+                solutionCode: `const shifter = document.getElementById('color-shifter');
+
+shifter.addEventListener('click', () => {
+    const randomHue = Math.floor(Math.random() * 360);
+    document.body.style.backgroundColor = 'hsl(' + randomHue + ', 80%, 50%)';
+});
+`,
+                htmlContext: `<button id="color-shifter" style="padding: 15px 30px; font-weight: bold; background: #222; color: #fff; border: 2px solid #00ff00; border-radius: 8px; cursor: pointer;">SHIFT COLOR ⚡</button>`,
+                language: "javascript",
+                validationType: "dom",
+                validationTests: [
+                    {
+                        type: "selectorExists",
+                        selector: "#color-shifter",
+                        message: "Falta el botó amb ID color-shifter."
+                    },
+                    {
+                        type: "regex",
+                        expected: "addEventListener\\(\\s*['\"]click['\"]",
+                        message: "Has d'afegir un gestor d'esdeveniments click al botó."
+                    },
+                    {
+                        type: "regex",
+                        expected: "document\\.body\\.style\\.backgroundColor",
+                        message: "Has d'actualitzar document.body.style.backgroundColor."
+                    }
+                ],
+                difficulty: "hard",
+                order: 3,
+                isChallenge: true
+            }
+        ];
+
+        await Level.insertMany([...exercises, ...challenges]);
+        console.log("Levels and Challenges seeded successfully");
         process.exit();
     })
     .catch(err => {

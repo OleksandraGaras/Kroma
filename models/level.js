@@ -44,10 +44,18 @@ const levelSchema = new mongoose.Schema({
             message: String
         }
     ],
+    difficulty: {
+        type: String,
+        enum: ['easy', 'medium', 'hard'],
+        default: 'easy'
+    },
     order: {
         type: Number,
-        required: true,
-        unique: true
+        required: true
+    },
+    isChallenge: {
+        type: Boolean,
+        default: false
     }
 });
 

@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  .desafios-container
+    .desafios-header
+      h1.glow-text REPTES DE COLOR
+      p.subtitle Posa a prova les teves habilitats de codificació visual amb problemes basats en colors i aconsegueix grans recompenses!
+
+    .desafios-grid
+      each challenge in challenges
+        if challenge.isUnlocked
+          if challenge.isCompleted
+            // COMPLETED CHALLENGE CARD
+            .desafio-card.completed(onclick=`window.location.href='/desafios/nivel/${challenge.order}'`)
+              .desafio-badge.badge-completed ✔ COMPLETAT
+              .desafio-points +#{challenge.difficulty === 'easy' ? 400 : challenge.difficulty === 'medium' ? 600 : 800} PTS
+              h2.desafio-title #{challenge.title}
+              p.desafio-desc #{challenge.description.length > 120 ? challenge.description.substring(0, 120) + '...' : challenge.description}
+              .desafio-meta
+                span(class=`difficulty-badge ${challenge.difficulty}`) #{challenge.difficulty.toUpperCase()}
+                span.language-badge #{challenge.language.toUpperCase()}
+              button.desafio-btn.btn-replay Rejugar ⚡
+          else
+            // ACTIVE/UNLOCKED CHALLENGE CARD
+            .desafio-card.active(onclick=`window.location.href='/desafios/nivel/${challenge.order}'` class=`glow-${challenge.difficulty}`)
+              .desafio-badge.badge-unlocked REPTES DISPONIBLES
+              .desafio-points +#{challenge.difficulty === 'easy' ? 400 : challenge.difficulty === 'medium' ? 600 : 800} PTS
+              h2.desafio-title #{challenge.title}
+              p.desafio-desc #{challenge.description.length > 120 ? challenge.description.substring(0, 120) + '...' : challenge.description}
+              .desafio-meta
+                span(class=`difficulty-badge ${challenge.difficulty}`) #{challenge.difficulty.toUpperCase()}
+                span.language-badge #{challenge.language.toUpperCase()}
+              button.desafio-btn.btn-start COMENCAR ▶
+        else
+          // LOCKED CHALLENGE CARD
+          .desafio-card.locked
+            .desafio-badge.badge-locked 🔒 BLOQUEJAT
+            .desafio-points-gray +#{challenge.difficulty === 'easy' ? 400 : challenge.difficulty === 'medium' ? 600 : 800} PTS
+            h2.desafio-title #{challenge.title}
+            p.desafio-desc #{challenge.description.length > 120 ? challenge.description.substring(0, 120) + '...' : challenge.description}
+            .desafio-meta
+              span.difficulty-badge.locked-badge BLOQUEJAT
+              span.language-badge.locked-badge #{challenge.language.toUpperCase()}
+            button.desafio-btn.btn-locked Completa l'anterior

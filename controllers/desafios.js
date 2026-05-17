@@ -2,92 +2,93 @@ const User = require('../models/users.js');
 const Level = require('../models/level.js');
 const { JSDOM } = require('jsdom');
 
-exports.global = ('/',async (req, res) => {
-  if (!res.locals.user) return res.redirect('/singin');
-  res.render('mapa'); 
-});
-
-exports.niveles = ('/nivel/:id', async (req,res) => {
-  if (!res.locals.user) return res.redirect('/singin');
+exports.list = async (req, res) => {
   try {
-    // We search by 'order' because the URLs use simple numbers (1, 2, 3...)
-    const level = await Level.findOne({ order: req.params.id });
-    if (!level) return res.status(404).send('Level not found');
-    
-    // Optional: Redirect if language doesn't match
-    if (level.language !== req.params.language) {
-      return res.redirect(`/mapa/${level.language}/nivel/${level.order}`);
-    }
+    const challenges = await Level.find({ isChallenge: true }).sort({ order: 1 });
+    const completed = req.user.completedChallenges || [];
 
-    res.render('niveles', { level });
+    const enhancedChallenges = challenges.map(c => {
+      const isCompleted = completed.includes(c.order);
+      const isUnlocked = (c.order === 1) || completed.includes(c.order - 1);
+      return {
+        ...c.toObject(),
+        isCompleted,
+        isUnlocked
+      };
+    });
+
+    res.render('desafios', { challenges: enhancedChallenges });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
   }
-})
+};
 
-
-exports.completar = ('/nivel/:id/complete', async (req, res) => {
-  if (!res.locals.user) return res.redirect('/singin');
+exports.play = async (req, res) => {
   try {
-    const level = await Level.findOne({ order: req.params.id });
-    if (!level) return res.status(404).send('Level not found');
+    const challenge = await Level.findOne({ isChallenge: true, order: req.params.id });
+    if (!challenge) return res.status(404).send('Challenge not found');
 
-    // Optional: Check language
-    if (level.language !== req.params.language) {
-      return res.redirect(`/mapa/${level.language}/nivel/${level.order}`);
+    const completed = req.user.completedChallenges || [];
+    const isUnlocked = (challenge.order === 1) || completed.includes(challenge.order - 1);
+    if (!isUnlocked) {
+      return res.redirect('/desafios');
     }
 
+    res.render('niveles', { level: challenge, isChallenge: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.complete = async (req, res) => {
+  try {
+    const challenge = await Level.findOne({ isChallenge: true, order: req.params.id });
+    if (!challenge) return res.status(404).send('Challenge not found');
+
     const submittedCode = req.body.code || '';
-    const validation = validateSolution(level, submittedCode);
+    const validation = validateSolution(challenge, submittedCode);
 
     if (validation.success) {
-      if (!req.user.completedLevels) {
-        req.user.completedLevels = [];
+      if (!req.user.completedChallenges) {
+        req.user.completedChallenges = [];
       }
 
-      // Award points only for first-time completion
-      if (!req.user.completedLevels.includes(level.order)) {
-        req.user.completedLevels.push(level.order);
+      if (!req.user.completedChallenges.includes(challenge.order)) {
+        req.user.completedChallenges.push(challenge.order);
 
-        let awardPoints = 100;
-        if (level.difficulty === 'medium') {
-          awardPoints = 200;
-        } else if (level.difficulty === 'hard') {
-          awardPoints = 300;
+        let awardPoints = 400;
+        if (challenge.difficulty === 'medium') {
+          awardPoints = 600;
+        } else if (challenge.difficulty === 'hard') {
+          awardPoints = 800;
         }
 
         req.user.points = (req.user.points || 0) + awardPoints;
-
-        // Dynamic Level Up Formula: level = floor(sqrt(points / 50)) + 1
         req.user.nivel = Math.floor(Math.sqrt(req.user.points / 50)) + 1;
 
         await req.user.save();
       }
 
-      res.redirect('/mapa');
+      res.redirect('/desafios');
     } else {
-      // Return to level with error
-      res.render('niveles', { 
-        level, 
-        error: validation.message || 'Codi incorrecte. Torna-ho a intentar!' 
+      res.render('niveles', {
+        level: challenge,
+        isChallenge: true,
+        error: validation.message || 'Codi incorrecte. Torna-ho a intentar!'
       });
     }
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
   }
-})
+};
 
-/**
- * Validates the submitted code against the level's requirements.
- */
 function validateSolution(level, submittedCode) {
   const { validationType, validationTests, solutionCode } = level;
 
-  // 1. Literal/Regex validation on the code itself (if not DOM type)
   if (validationType === 'literal' || validationType === 'regex') {
-    // If we have specific validationTests of type 'regex' or 'literal', use them
     if (validationTests && validationTests.length > 0) {
       for (const test of validationTests) {
         if (test.type === 'regex') {
@@ -106,7 +107,6 @@ function validateSolution(level, submittedCode) {
       return { success: true };
     }
 
-    // Fallback to solutionCode if no validationTests
     const target = solutionCode || '';
     if (validationType === 'regex') {
       const regex = new RegExp(target, 'i');
@@ -119,7 +119,6 @@ function validateSolution(level, submittedCode) {
     return { success: false, message: 'El codi no és correcte.' };
   }
 
-  // 2. DOM validation (for HTML/CSS/JS)
   if (validationType === 'dom') {
     let htmlToParse;
     let runScripts = false;
@@ -136,7 +135,6 @@ function validateSolution(level, submittedCode) {
     const dom = new JSDOM(htmlToParse, runScripts ? { runScripts: "dangerously", resources: "usable" } : {});
     const document = dom.window.document;
 
-    // If JS, we need to manually execute the script in the context
     if (runScripts) {
       try {
         dom.window.eval(submittedCode);
@@ -186,7 +184,7 @@ function validateSolution(level, submittedCode) {
             return { success: false, message: test.message || `La propietat ${test.propertyName} de ${test.selector} ha de ser ${test.expected}.` };
           }
           break;
-        
+
         case 'regex':
           const regex = new RegExp(test.expected, 'i');
           if (!regex.test(submittedCode)) {
@@ -200,5 +198,3 @@ function validateSolution(level, submittedCode) {
 
   return { success: false, message: 'Tipus de validació desconegut.' };
 }
-
-

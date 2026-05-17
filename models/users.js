@@ -20,11 +20,19 @@ const userSchema = mongoose.Schema({
     },
     nivel: {
       type: Number,
-      default: 0,
+      default: 1,
     },
     points: {
       type: Number,
       default: 0,
+    },
+    completedLevels: {
+      type: [Number],
+      default: []
+    },
+    completedChallenges: {
+      type: [Number],
+      default: []
     },
     profilepic: {
       type: String,
